@@ -1,0 +1,38 @@
+export const riwayatPencairanData = [
+  {
+    id: 1,
+    tanggal: "07 July 2026",
+    jam: "04:02 WIB",
+    nominal: "Rp 50.000.000",
+    status: "Diproses",
+    statusType: "warning",
+    detailUrl: "/detail-pengajuan/1",
+  },
+  {
+    id: 2,
+    tanggal: "07 July 2026",
+    jam: "04:02 WIB",
+    nominal: "Rp 50.000.000",
+    status: "Ditolak",
+    statusType: "danger",
+    detailUrl: "/detail-pengajuan/2",
+  },
+  {
+    id: 3,
+    tanggal: "07 July 2026",
+    jam: "04:02 WIB",
+    nominal: "Rp 50.000.000",
+    status: "Berhasil",
+    statusType: "success",
+    detailUrl: "/detail-pengajuan/3",
+  },
+  {
+    id: 4,
+    tanggal: "07 July 2026",
+    jam: "04:02 WIB",
+    nominal: "Rp 50.000.000",
+    status: "Berhasil",
+    statusType: "success",
+    detailUrl: "/detail-pengajuan/4",
+  },
+];

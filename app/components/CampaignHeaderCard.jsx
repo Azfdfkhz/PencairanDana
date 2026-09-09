@@ -9,7 +9,7 @@ export default function CampaignHeaderCard() {
     <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-100 bg-white p-4 shadow-xs md:p-5">
       <div className="flex items-center gap-4">
         {/* Campaign Thumbnail with corner radius 6px */}
-        <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded-[6px] bg-slate-100 md:h-16 md:w-28">
+        <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded-md bg-slate-100 md:h-16 md:w-28">
           <Image
             src="/images/SH-Rohingnya.png"
             alt="Bantu Pengungsi Rohingya"

@@ -37,7 +37,7 @@ export default function UbahRekeningModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 p-4"
       onClick={onClose}
     >
       <div
@@ -80,7 +80,7 @@ export default function UbahRekeningModal({ open, onClose }) {
         {/* Steps Container */}
         <div className="divide-y divide-gray-100 rounded-2xl border border-gray-100">
           <div className="flex gap-4 p-5">
-            <StepNumber number={1} />
+            <Images src="/images/P1.svg" />
 
             <div className="flex-1">
               <div className="mb-2 flex items-center gap-2">
@@ -108,7 +108,7 @@ export default function UbahRekeningModal({ open, onClose }) {
 
           {/* Step 2: Lampirkan Dokumen */}
           <div className="flex gap-4 p-5">
-            <StepNumber number={2} />
+            <Images src="/images/P2.svg" />
 
             <div className="flex-1">
               <div className="mb-2 flex items-center gap-2">
@@ -143,7 +143,7 @@ export default function UbahRekeningModal({ open, onClose }) {
 
           {/* Step 3 */}
           <div className="flex gap-4 p-5">
-            <StepNumber number={3} />
+            <Images src="/images/P3.svg" />
 
             <div className="flex-1">
               <div className="mb-2 flex items-center gap-2">
@@ -189,10 +189,15 @@ export default function UbahRekeningModal({ open, onClose }) {
   );
 }
 
-function StepNumber({ number }) {
+function Images ({ src }) {
   return (
-    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0052cc] text-xs font-bold text-white">
-      {number}
+    <div className="relative h-25 w-25 shrink-0">
+      <Image
+        src={src}
+        alt=""
+        fill
+        className="object-contain"
+      />
     </div>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
+import KonfirmasiPengajuan from  "@/app/pencairan-dana/cairkan-dana/components/KonfirmasiPengajuan";
 import React, { useState } from "react";
 import Link from "next/link";
 import NominalPencairan from "./NominalPencairan";
 import {
-  Calendar,
   Users,
   MapPin,
   FileText,
@@ -14,10 +14,34 @@ import {
 } from "lucide-react";
 
 export default function FormPengajuanPencairan() {
+  const [step, setStep] = useState(1);
+  const [pilihanNominal, setPilihanNominal] = useState("semua");
+  const [nominalLain, setNominalLain] = useState("");
   const [tanggalPenyaluran, setTanggalPenyaluran] = useState("");
   const [jumlahPenerima, setJumlahPenerima] = useState("");
   const [lokasiPenyaluran, setLokasiPenyaluran] = useState("");
   const [deskripsiPenyaluran, setDeskripsiPenyaluran] = useState("");
+
+  const formData = {
+    nominal:
+      pilihanNominal === "semua"
+        ? "Rp 190.788.000"
+        : nominalLain
+        ? `Rp ${nominalLain}`
+        : "Rp 190.788.000",
+    tanggal: tanggalPenyaluran || "30–04–2027",
+    jumlahPenerima: jumlahPenerima ? `${jumlahPenerima} Orang` : "150 Orang",
+    lokasi: lokasiPenyaluran || "Palu, Sulawesi Tengah",
+    deskripsi:
+      deskripsiPenyaluran ||
+      "Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran.",
+  };
+
+  if (step === 2) {
+    return (
+      <KonfirmasiPengajuan formData={formData} onBack={() => setStep(1)} />
+    );
+  }
 
   return (
     <div className="mb-8 rounded-xl border border-gray-100 bg-white p-5 shadow-xs md:p-8">
@@ -32,27 +56,27 @@ export default function FormPengajuanPencairan() {
       </div>
 
       {/* Stepper Indicator */}
-      <div className="mb-8 flex items-center justify-center">
-        <div className="flex items-center gap-3">
-          {/* Step 1: Informasi Pencairan */}
-          <div className="flex flex-col items-center">
+      <div className="mb-8 flex justify-center w-full">
+        <div className="flex items-start justify-center gap-2 sm:gap-4 w-full max-w-xs sm:max-w-md">
+          {/* Informasi Pencairan */}
+          <div className="flex flex-col items-center text-center w-28 sm:w-36">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0052cc] text-sm font-bold text-white shadow-xs">
               1
             </div>
-            <span className="mt-2 text-xs font-bold text-[#0052cc]">
+            <span className="mt-2 text-[11px] sm:text-xs font-bold text-[#0052cc] text-center leading-tight">
               Informasi Pencairan
             </span>
           </div>
 
-          {/* Stepper Connecting Line */}
-          <div className="mb-5 h-[1.5px] w-24 bg-gray-200 sm:w-44 md:w-64" />
+          {/* Line */}
+          <div className="mt-4 flex-1 h-0.5 bg-gray-200" />
 
-          {/* Step 2: Konfirmasi Pengajuan */}
-          <div className="flex flex-col items-center">
+          {/* Konfirmasi Pengajuan */}
+          <div className="flex flex-col items-center text-center w-28 sm:w-36">
             <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 bg-white text-sm font-bold text-gray-400">
               2
             </div>
-            <span className="mt-2 text-xs font-medium text-[#94a3b8]">
+            <span className="mt-2 text-[11px] sm:text-xs font-medium text-[#94a3b8] text-center leading-tight">
               Konfirmasi Pengajuan
             </span>
           </div>
@@ -62,7 +86,12 @@ export default function FormPengajuanPencairan() {
       {/* Box Utama Form dengan Border Biru */}
       <div className="space-y-6 rounded-2xl border border-[#d0e2ff] bg-white p-5 md:p-7">
         {/* Component Nominal Pencairan */}
-        <NominalPencairan />
+        <NominalPencairan
+          pilihanNominal={pilihanNominal}
+          setPilihanNominal={setPilihanNominal}
+          nominalLain={nominalLain}
+          setNominalLain={setNominalLain}
+        />
 
         {/* Inputs Grid (Rencana Tanggal, Jumlah Penerima, Lokasi, Deskripsi) */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -71,19 +100,12 @@ export default function FormPengajuanPencairan() {
             <label className="mb-1.5 block text-xs font-bold text-[#1e293b] md:text-sm">
               Rencana Tanggal Penyaluran
             </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={tanggalPenyaluran}
-                onChange={(e) => setTanggalPenyaluran(e.target.value)}
-                placeholder="Pilih tanggal penyaluran"
-                className="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 pr-10 text-xs text-[#1e293b] placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm"
-              />
-              <Calendar
-                size={18}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600"
-              />
-            </div>
+            <input
+              type="date"
+              value={tanggalPenyaluran}
+              onChange={(e) => setTanggalPenyaluran(e.target.value)}
+              className="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-xs text-[#1e293b] placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm cursor-pointer"
+            />
           </div>
 
           {/* Field: Jumlah Penerima Manfaat */}
@@ -156,7 +178,6 @@ export default function FormPengajuanPencairan() {
 
       {/* Action Footer Buttons */}
       <div className="mt-8 flex items-center justify-between">
-        {/* Button Back / Kembali */}
         <Link
           href="/pencairan-dana"
           className="flex items-center gap-2 rounded-xl border-2 border-[#0052cc] bg-white px-6 py-3 text-xs font-bold text-[#0052cc] transition-all hover:bg-[#f0f6fe] active:scale-[0.98] md:text-sm"
@@ -168,7 +189,8 @@ export default function FormPengajuanPencairan() {
         {/* Button Selanjutnya */}
         <button
           type="button"
-          className="flex items-center gap-2 rounded-xl bg-[#0052cc] px-8 py-3.5 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#0047b3] active:scale-[0.98] md:text-sm"
+          onClick={() => setStep(2)}
+          className="flex items-center gap-2 rounded-xl bg-[#0052cc] px-8 py-3.5 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#0047b3] active:scale-[0.98] cursor-pointer md:text-sm"
         >
           <span>Selanjutnya</span>
           <ArrowRight size={18} />

@@ -29,7 +29,7 @@ export default function Sidebar() {
       {/* Mobile Top Header */}
       <div className="fixed left-0 right-0 top-0 z-50 border-b border-gray-100 bg-white shadow-xs md:hidden">
         <div className="grid grid-cols-3 h-14 items-center px-4">
-          <Link href="/overview" className="text-[#263238] justify-self-start flex items-center p-1">
+          <Link href="/pencairan-dana" className="text-[#263238] justify-self-start flex items-center p-1">
             <ArrowLeft size={22} strokeWidth={2} />
           </Link>
 
@@ -49,10 +49,10 @@ export default function Sidebar() {
 
 
       {/* Desktop Sidebar*/}
-      <aside className="fixed left-0 top-0 z-50 hidden h-screen w-[172px] flex-col bg-white shadow-[2px_0_8px_rgba(0,0,0,0.12)] md:flex">
+      <aside className="fixed left-0 top-0 z-50 hidden h-screen w-43 flex-col bg-white shadow-[2px_0_8px_rgba(0,0,0,0.12)] md:flex">
         {/* Header */}
-        <div className="flex h-[70px] items-center px-5">
-          <Link href="/overview" className="mr-4 text-[#263238]">
+        <div className="flex h-17.5 items-center px-5">
+          <Link href="/pencairan-dana" className="mr-4 text-[#263238]">
             <ArrowLeft size={25} strokeWidth={2} />
           </Link>
 
@@ -78,7 +78,7 @@ export default function Sidebar() {
                 key={item.name}
                 href={item.href}
                 className={`
-                  flex h-[48px] items-center gap-4 px-7
+                  flex h-12 items-center gap-4 px-7
                   text-[12px] font-semibold
                   transition-colors
                   ${

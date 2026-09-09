@@ -3,10 +3,31 @@
 import React, { useState } from "react";
 import { Wallet } from "lucide-react";
 
-export default function NominalPencairan() {
-  const [pilihanNominal, setPilihanNominal] = useState("semua"); // 'semua' | 'lain'
-  const [nominalLain, setNominalLain] = useState("");
+export default function NominalPencairan({
+  pilihanNominal = "semua",
+  setPilihanNominal,
+  nominalLain = "",
+  setNominalLain,
+}) {
+  const [internalPilihan, setInternalPilihan] = useState("semua");
+  const [internalLain, setInternalLain] = useState("");
+
+  const selectedPilihan = setPilihanNominal ? pilihanNominal : internalPilihan;
+  const setSelectedPilihan = setPilihanNominal || setInternalPilihan;
+  const valLain = setNominalLain ? nominalLain : internalLain;
+  const setValLain = setNominalLain || setInternalLain;
+
   const saldoTersedia = "Rp 190.788.000";
+
+  const formatRupiah = (val) => {
+    const raw = val.replace(/\D/g, "");
+    if (!raw) return "";
+    return new Intl.NumberFormat("id-ID").format(raw);
+  };
+
+  const handleNominalChange = (e) => {
+    setValLain(formatRupiah(e.target.value));
+  };
 
   return (
     <div className="mb-6">
@@ -39,9 +60,9 @@ export default function NominalPencairan() {
           {/* Option 1: Cairkan Semua Saldo Tersedia */}
           <button
             type="button"
-            onClick={() => setPilihanNominal("semua")}
+            onClick={() => setSelectedPilihan("semua")}
             className={`flex w-full items-center justify-between rounded-lg border p-3.5 text-left transition-all ${
-              pilihanNominal === "semua"
+              selectedPilihan === "semua"
                 ? "border-[#0052cc] bg-[#f8fafc] ring-1 ring-[#0052cc]"
                 : "border-gray-200 hover:border-gray-300"
             }`}
@@ -49,12 +70,12 @@ export default function NominalPencairan() {
             <div className="flex items-center gap-3">
               <div
                 className={`flex h-5 w-5 items-center justify-center rounded-full border ${
-                  pilihanNominal === "semua"
+                  selectedPilihan === "semua"
                     ? "border-[#0052cc] bg-[#0052cc]"
                     : "border-gray-300"
                 }`}
               >
-                {pilihanNominal === "semua" && (
+                {selectedPilihan === "semua" && (
                   <div className="h-2 w-2 rounded-full bg-white" />
                 )}
               </div>
@@ -72,9 +93,9 @@ export default function NominalPencairan() {
           <div className="space-y-3">
             <button
               type="button"
-              onClick={() => setPilihanNominal("lain")}
+              onClick={() => setSelectedPilihan("lain")}
               className={`flex w-full items-center justify-between rounded-lg border p-3.5 text-left transition-all ${
-                pilihanNominal === "lain"
+                selectedPilihan === "lain"
                   ? "border-[#0052cc] bg-[#f8fafc] ring-1 ring-[#0052cc]"
                   : "border-gray-200 hover:border-gray-300"
               }`}
@@ -82,12 +103,12 @@ export default function NominalPencairan() {
               <div className="flex items-center gap-3">
                 <div
                   className={`flex h-5 w-5 items-center justify-center rounded-full border ${
-                    pilihanNominal === "lain"
+                    selectedPilihan === "lain"
                       ? "border-[#0052cc] bg-[#0052cc]"
                       : "border-gray-300"
                   }`}
                 >
-                  {pilihanNominal === "lain" && (
+                  {selectedPilihan === "lain" && (
                     <div className="h-2 w-2 rounded-full bg-white" />
                   )}
                 </div>
@@ -98,7 +119,7 @@ export default function NominalPencairan() {
             </button>
 
             {/* Input Nominal Kustom */}
-            {pilihanNominal === "lain" && (
+            {selectedPilihan === "lain" && (
               <div className="pt-1">
                 <div className="relative overflow-hidden rounded-lg border border-gray-300 bg-white">
                   <span className="absolute inset-y-0 left-0 flex w-12 items-center justify-center border-r border-gray-300 bg-gray-100 text-sm font-medium text-gray-500">
@@ -106,10 +127,11 @@ export default function NominalPencairan() {
                   </span>
                   
                   <input
-                    type="number"
-                    value={nominalLain}
-                    onChange={(e) => setNominalLain(e.target.value)}
-                    placeholder= "Contoh: 50.000.000"
+                    type="text"
+                    inputMode="numeric"
+                    value={valLain}
+                    onChange={handleNominalChange}
+                    placeholder="Contoh: 50.000.000"
                     className="w-full rounded-lg py-2.5 pl-15 pr-4 text-sm font-semibold text-[#1e293b] outline-hidden focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc]"
                   />
                 </div>

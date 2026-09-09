@@ -30,7 +30,7 @@ export default function MobileNavTabs() {
             key={item.name}
             href={item.href}
             className={`
-              flex h-[44px] flex-1 items-center justify-center gap-2
+              flex h-11 flex-1 items-center justify-center gap-2
               rounded-full text-[13px] transition-all duration-200
               ${
                 active

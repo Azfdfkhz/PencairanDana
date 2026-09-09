@@ -13,7 +13,7 @@ import {
 const menuItems = [
   {
     name: "Pencairan Dana",
-    href: "/",
+    href: "/pencairan-dana",
     icon: Wallet,
   },
 ];

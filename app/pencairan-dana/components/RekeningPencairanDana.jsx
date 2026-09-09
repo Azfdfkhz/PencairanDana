@@ -2,7 +2,7 @@
 
 import { Landmark, Info, Pencil, ShieldCheck } from "lucide-react";
 
-export default function RekeningPencairanDana() {
+export default function RekeningPencairanDana({ onSubmit }) {
   return (
     <div className="mb-6 flex h-full flex-col justify-between rounded-xl border border-gray-100 bg-white p-5 shadow-xs md:p-6">
       <div>
@@ -55,7 +55,11 @@ export default function RekeningPencairanDana() {
 
       {/* Ubah Rekening Button */}
       <div className="mt-5">
-        <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#0052cc] bg-white py-2.5 text-sm font-bold text-[#0052cc] shadow-2xs transition-colors hover:bg-[#f0f6fe] active:scale-[0.99]">
+        <button
+          type="button"
+          onClick={onSubmit}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#0052cc] bg-white py-2.5 text-sm font-bold text-[#0052cc] shadow-2xs transition-colors hover:bg-[#f0f6fe] active:scale-[0.99]"
+        >
           <Pencil size={16} />
           <span>Ubah Rekening</span>
         </button>

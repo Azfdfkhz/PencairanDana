@@ -7,7 +7,7 @@ import { Wallet } from "lucide-react";
 const menuItems = [
   {
     name: "Pencairan Dana",
-    href: "/",
+    href: "/pencairan-dana",
     icon: Wallet,
   },
   

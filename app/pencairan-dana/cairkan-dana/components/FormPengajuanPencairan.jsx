@@ -158,7 +158,7 @@ export default function FormPengajuanPencairan() {
       <div className="mt-8 flex items-center justify-between">
         {/* Button Back / Kembali */}
         <Link
-          href="/PencairanDana"
+          href="/pencairan-dana"
           className="flex items-center gap-2 rounded-xl border-2 border-[#0052cc] bg-white px-6 py-3 text-xs font-bold text-[#0052cc] transition-all hover:bg-[#f0f6fe] active:scale-[0.98] md:text-sm"
         >
           <ArrowLeft size={18} />

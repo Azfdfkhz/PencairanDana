@@ -100,16 +100,17 @@ export default function NominalPencairan() {
             {/* Input Nominal Kustom */}
             {pilihanNominal === "lain" && (
               <div className="pt-1">
-                <div className="relative rounded-lg border border-gray-300 bg-white">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-500">
+                <div className="relative overflow-hidden rounded-lg border border-gray-300 bg-white">
+                  <span className="absolute inset-y-0 left-0 flex w-12 items-center justify-center border-r border-gray-300 bg-gray-100 text-sm font-medium text-gray-500">
                     Rp
                   </span>
+                  
                   <input
                     type="number"
                     value={nominalLain}
                     onChange={(e) => setNominalLain(e.target.value)}
-                    placeholder="Contoh: 50.000.000"
-                    className="w-full rounded-lg py-2.5 pl-10 pr-4 text-sm font-semibold text-[#1e293b] outline-hidden focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc]"
+                    placeholder= "Contoh: 50.000.000"
+                    className="w-full rounded-lg py-2.5 pl-15 pr-4 text-sm font-semibold text-[#1e293b] outline-hidden focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc]"
                   />
                 </div>
                 <p className="mt-1 text-[11px] text-[#94a3b8]">

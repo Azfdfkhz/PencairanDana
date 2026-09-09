@@ -6,7 +6,7 @@ export const riwayatPencairanData = [
     nominal: "Rp 50.000.000",
     status: "Diproses",
     statusType: "warning",
-    detailUrl: "/detail-pengajuan/1",
+    detailUrl: "/pencairan-dana/detaildana?id=1",
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const riwayatPencairanData = [
     nominal: "Rp 50.000.000",
     status: "Ditolak",
     statusType: "danger",
-    detailUrl: "/detail-pengajuan/2",
+    detailUrl: "/pencairan-dana/detaildana?id=2",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ export const riwayatPencairanData = [
     nominal: "Rp 50.000.000",
     status: "Berhasil",
     statusType: "success",
-    detailUrl: "/detail-pengajuan/3",
+    detailUrl: "/pencairan-dana/detaildana?id=3",
   },
   {
     id: 4,
@@ -33,6 +33,6 @@ export const riwayatPencairanData = [
     nominal: "Rp 50.000.000",
     status: "Berhasil",
     statusType: "success",
-    detailUrl: "/detail-pengajuan/4",
+    detailUrl: "/pencairan-dana/detaildana?id=4",
   },
 ];

@@ -118,7 +118,7 @@ export async function submitPengajuanPencairan(payload) {
       noPengajuan: created.noPengajuan,
       tanggalPengajuan: created.tanggal,
       jamPengajuan: created.jam,
-      estimasiVerifikasi: "1–2 Business Days",
+      estimasiVerifikasi: "1–2 Hari Kerja",
       detailUrl: created.detailUrl,
     };
   }

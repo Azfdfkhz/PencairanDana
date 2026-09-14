@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+:root {
+  --font-poppins: "Poppins";
+}
+
+* {
+  font-family: var(--font-poppins);
+}

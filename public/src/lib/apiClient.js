@@ -14,20 +14,6 @@ export const USE_MOCK = process.env.NODE_ENV !== "production" && !API_URL;
 
 const DEFAULT_TIMEOUT_MS = 15000;
 
-// Token bearer opsional, di-set sekali setelah login (mis. dari halaman/handler
-// login: `setAuthToken(token)`), lalu otomatis dilampirkan ke setiap apiFetch
-// sebagai header Authorization. Dipakai kalau backend memakai skema token,
-// bukan cookie session.
-let authToken = null;
-
-export function setAuthToken(token) {
-  authToken = token || null;
-}
-
-export function getAuthToken() {
-  return authToken;
-}
-
 export class ApiError extends Error {
   constructor(message, { status = null, cause = null, code = "API_ERROR" } = {}) {
     super(message);
@@ -74,11 +60,8 @@ export async function apiFetch(path, options = {}) {
   try {
     response = await fetch(url, {
       ...rest,
-      // Kirim cookie (mis. session login) walau API_URL beda origin dari app ini.
-      credentials: rest.credentials || "include",
       headers: {
         "Content-Type": "application/json",
-        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
         ...headers,
       },
       signal: controller.signal,
@@ -113,10 +96,7 @@ export async function apiFetch(path, options = {}) {
     const message =
       (body && typeof body === "object" && (body.message || body.error)) ||
       `Permintaan gagal (status ${response.status})`;
-    throw new ApiError(message, {
-      status: response.status,
-      code: response.status === 401 ? "UNAUTHORIZED" : "HTTP_ERROR",
-    });
+    throw new ApiError(message, { status: response.status, code: "HTTP_ERROR" });
   }
 
   return body;

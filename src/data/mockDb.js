@@ -6,232 +6,232 @@ export const campaignInfo = {
   campaignUrl: "/campaign/rohingya",
 };
 
-export const ringkasanDana = {
-  danaTerkumpul: 213788000,
-  sudahDicairkan: 213788000,
-  bisaDicairkan: 190788000,
-  minimalPencairan: 100000,
+export const fundSummary = {
+  totalFundsCollected: 213788000,
+  alreadyWithdrawn: 213788000,
+  availableToWithdraw: 190788000,
+  minimumWithdrawal: 100000,
 };
 
-export const rincianDana = {
-  danaTerkumpul: 213788000,
-  biayaOptimasi: {
+export const fundDetails = {
+  totalFundsCollected: 213788000,
+  optimizationFee: {
     total: 30000000,
-    rincian: [
+    breakdown: [
       { label: "PPh Iklan", nominal: 5000000 },
       { label: "Biaya Iklan", nominal: 15000000 },
       { label: "Biaya Optimasi", nominal: 10000000 },
     ],
   },
-  biayaPaymentGateway: 67000000,
-  biayaPlatform: 67000000,
-  sudahDicairkan: 31788000,
-  bisaDicairkan: 147000000,
+  paymentGatewayFee: 67000000,
+  platformFee: 67000000,
+  alreadyWithdrawn: 31788000,
+  availableToWithdraw: 147000000,
   lastUpdated: "2026-09-10T08:00:00+20:00",
 };
 
-export const rekeningPencairan = {
-  namaBank: "Bank BCA",
-  nomorRekening: "1234 5678 90",
-  namaPemilikRekening: "Yayasan Berbagi Bahagia",
-  terverifikasi: true,
+export const withdrawalAccount = {
+  bankName: "Bank BCA",
+  accountNumber: "1234 5678 90",
+  accountHolderName: "Yayasan Berbagi Bahagia",
+  verified: true,
 };
 
-export const kontakPenerima = {
-  namaKontak: "Nur Fatilah",
-  noWhatsapp: "081231781812",
-  noWhatsappMasked: "+62 812 •••• ••89",
+export const recipientContact = {
+  contactName: "Nur Fatilah",
+  whatsappNumber: "081231781812",
+  whatsappNumberMasked: "+62 812 •••• •89",
 };
 
 export const csContact = {
   whatsappNumber: "6281234567890",
 };
 
-export const ubahRekeningAssets = {
+export const changeBankAccountAssets = {
   formUrl: "/files/Form-Perubahan-Rekening.docx",
-  dokumenList: [
+  documentList: [
     "Foto/scan KTP atau Kartu Identitas pengaju",
     "Foto buku tabungan atau bukti kepemilikan rekening",
   ],
 };
 
-export const riwayatPencairanData = [
+export const withdrawalHistoryData = [
   {
     id: 1,
-    noPengajuan: "PCR-2208137137",
-    tanggal: "07 July 2026",
-    jam: "04:02 WIB",
+    submissionNumber: "PCR-2208137137",
+    date: "07 July 2026",
+    time: "04:02 WIB",
     nominal: "Rp 50.000.000",
     status: "Diproses",
     statusType: "warning",
     detailUrl: "/pencairan-dana/detail-dana?id=1",
-    nominalPencairan: "Rp 190.788.000",
-    lokasiPenyaluran: "Palu, Sulawesi Tengah",
-    tanggalPenyaluran: "30–04–2027",
-    jumlahPenerima: "150 Orang",
-    deskripsiPenyaluran:
+    withdrawalAmount: "Rp 190.788.000",
+    distributionLocation: "Palu, Sulawesi Tengah",
+    distributionDate: "30–04–2027",
+    recipientCount: "150 Orang",
+    distributionDescription:
       "Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran.",
-    namaBank: "Bank BCA",
-    nomorRekening: "1234 5678 90",
-    namaPemilikRekening: "Nama Pemilik Rekening",
-    namaKontak: "Nur Fatilah",
-    noWhatsapp: "081231781812",
+    bankName: "Bank BCA",
+    accountNumber: "1234 5678 90",
+    accountHolderName: "Nama Pemilik Rekening",
+    contactName: "Nur Fatilah",
+    whatsappNumber: "081231781812",
     timeline: [
-      { label: "Pengajuan Dikirim", tanggal: "07 July 2026 - 09:55 WIB", done: true },
-      { label: "Pengajuan Diproses", tanggal: "09 July 2026 - 09:55 WIB", done: true },
-      { label: "Menunggu Verifikasi", tanggal: null, done: false },
+      { label: "Pengajuan Dikirim", date: "07 July 2026 - 09:55 WIB", done: true },
+      { label: "Pengajuan Diproses", date: "09 July 2026 - 09:55 WIB", done: true },
+      { label: "Menunggu Verifikasi", date: null, done: false },
     ],
   },
   {
     id: 2,
-    noPengajuan: "PCR-2208137137",
-    tanggal: "07 July 2026",
-    jam: "04:02 WIB",
+    submissionNumber: "PCR-2208137137",
+    date: "07 July 2026",
+    time: "04:02 WIB",
     nominal: "Rp 50.000.000",
     status: "Ditolak",
     statusType: "danger",
     detailUrl: "/pencairan-dana/detail-dana?id=2",
-    nominalPencairan: "Rp 190.788.000",
-    lokasiPenyaluran: "Palu, Sulawesi Tengah",
-    tanggalPenyaluran: "30–04–2027",
-    jumlahPenerima: "150 Orang",
-    deskripsiPenyaluran:
+    withdrawalAmount: "Rp 190.788.000",
+    distributionLocation: "Palu, Sulawesi Tengah",
+    distributionDate: "30–04–2027",
+    recipientCount: "150 Orang",
+    distributionDescription:
       "Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran.",
-    namaBank: "Bank BCA",
-    nomorRekening: "1234 5678 90",
-    namaPemilikRekening: "Nama Pemilik Rekening",
-    namaKontak: "Nur Fatilah",
-    noWhatsapp: "081231781812",
-    catatanPenolakan:
+    bankName: "Bank BCA",
+    accountNumber: "1234 5678 90",
+    accountHolderName: "Nama Pemilik Rekening",
+    contactName: "Nur Fatilah",
+    whatsappNumber: "081231781812",
+    rejectionNote:
       "Angka RAB di deskripsi rencana penyaluran dan total pengajuan tidak sesuai",
     timeline: [
-      { label: "Pengajuan Dikirim", tanggal: "07 July 2026 - 09:55 WIB", done: true },
-      { label: "Pengajuan Diproses", tanggal: "09 July 2026 - 09:55 WIB", done: true },
-      { label: "Pengajuan Ditolak", tanggal: "11 July 2026 - 09:55 WIB", done: true, rejected: true },
+      { label: "Pengajuan Dikirim", date: "07 July 2026 - 09:55 WIB", done: true },
+      { label: "Pengajuan Diproses", date: "09 July 2026 - 09:55 WIB", done: true },
+      { label: "Pengajuan Ditolak", date: "11 July 2026 - 09:55 WIB", done: true, rejected: true },
     ],
   },
   {
     id: 3,
-    noPengajuan: "PCR-2208137137",
-    tanggal: "07 July 2026",
-    jam: "04:02 WIB",
+    submissionNumber: "PCR-2208137137",
+    date: "07 July 2026",
+    time: "04:02 WIB",
     nominal: "Rp 50.000.000",
     status: "Berhasil",
     statusType: "success",
     detailUrl: "/pencairan-dana/detail-dana?id=3",
-    nominalPencairan: "Rp 190.788.000",
-    lokasiPenyaluran: "Palu, Sulawesi Tengah",
-    tanggalPenyaluran: "30–04–2027",
-    jumlahPenerima: "150 Orang",
-    deskripsiPenyaluran:
+    withdrawalAmount: "Rp 190.788.000",
+    distributionLocation: "Palu, Sulawesi Tengah",
+    distributionDate: "30–04–2027",
+    recipientCount: "150 Orang",
+    distributionDescription:
       "Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran.",
-    namaBank: "Bank BCA",
-    nomorRekening: "1234 5678 90",
-    namaPemilikRekening: "Nama Pemilik Rekening",
-    namaKontak: "Nur Fatilah",
-    noWhatsapp: "081231781812",
+    bankName: "Bank BCA",
+    accountNumber: "1234 5678 90",
+    accountHolderName: "Nama Pemilik Rekening",
+    contactName: "Nur Fatilah",
+    whatsappNumber: "081231781812",
     timeline: [
-      { label: "Pengajuan Dikirim", tanggal: "07 July 2026 - 09:55 WIB", done: true },
-      { label: "Pengajuan Diproses", tanggal: "09 July 2026 - 09:55 WIB", done: true },
-      { label: "Dana Berhasil Dicairkan", tanggal: "11 July 2026 - 08:55 WIB", done: true },
+      { label: "Pengajuan Dikirim", date: "07 July 2026 - 09:55 WIB", done: true },
+      { label: "Pengajuan Diproses", date: "09 July 2026 - 09:55 WIB", done: true },
+      { label: "Dana Berhasil Dicairkan", date: "11 July 2026 - 08:55 WIB", done: true },
     ],
   },
   {
     id: 4,
-    noPengajuan: "PCR-2208137138",
-    tanggal: "07 July 2026",
-    jam: "04:02 WIB",
+    submissionNumber: "PCR-2208137138",
+    date: "07 July 2026",
+    time: "04:02 WIB",
     nominal: "Rp 50.000.000",
     status: "Berhasil",
     statusType: "success",
     detailUrl: "/pencairan-dana/detail-dana?id=4",
-    nominalPencairan: "Rp 190.788.000",
-    lokasiPenyaluran: "Palu, Sulawesi Tengah",
-    tanggalPenyaluran: "30–04–2027",
-    jumlahPenerima: "150 Orang",
-    deskripsiPenyaluran:
+    withdrawalAmount: "Rp 190.788.000",
+    distributionLocation: "Palu, Sulawesi Tengah",
+    distributionDate: "30–04–2027",
+    recipientCount: "150 Orang",
+    distributionDescription:
       "Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran.",
-    namaBank: "Bank BCA",
-    nomorRekening: "1234 5678 90",
-    namaPemilikRekening: "Nama Pemilik Rekening",
-    namaKontak: "Nur Fatilah",
-    noWhatsapp: "081231781812",
+    bankName: "Bank BCA",
+    accountNumber: "1234 5678 90",
+    accountHolderName: "Nama Pemilik Rekening",
+    contactName: "Nur Fatilah",
+    whatsappNumber: "081231781812",
     timeline: [
-      { label: "Pengajuan Dikirim", tanggal: "07 July 2026 - 09:55 WIB", done: true },
-      { label: "Pengajuan Diproses", tanggal: "09 July 2026 - 09:55 WIB", done: true },
-      { label: "Dana Berhasil Dicairkan", tanggal: "11 July 2026 - 08:55 WIB", done: true },
+      { label: "Pengajuan Dikirim", date: "07 July 2026 - 09:55 WIB", done: true },
+      { label: "Pengajuan Diproses", date: "09 July 2026 - 09:55 WIB", done: true },
+      { label: "Dana Berhasil Dicairkan", date: "11 July 2026 - 08:55 WIB", done: true },
     ],
   },
     {
     id: 5,
-    noPengajuan: "PCR-22081374567",
-    tanggal: "10 september 2026",
-    jam: "04:02 WIB",
+    submissionNumber: "PCR-22081374567",
+    date: "10 september 2026",
+    time: "04:02 WIB",
     nominal: "Rp 150.000.000",
     status: "Diproses",
     statusType: "warning",
     detailUrl: "/pencairan-dana/detail-dana?id=1",
-    nominalPencairan: "Rp 190.788.000",
-    lokasiPenyaluran: "Palu, Sulawesi Tengah",
-    tanggalPenyaluran: "30–04–2027",
-    jumlahPenerima: "150 Orang",
-    deskripsiPenyaluran:
+    withdrawalAmount: "Rp 190.788.000",
+    distributionLocation: "Palu, Sulawesi Tengah",
+    distributionDate: "30–04–2027",
+    recipientCount: "150 Orang",
+    distributionDescription:
       "Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran. Jelaskan secara singkat rencana penyaluran.",
-    namaBank: "Bank BCA",
-    nomorRekening: "1234 5678 90",
-    namaPemilikRekening: "Nama Pemilik Rekening",
-    namaKontak: "Nur Fatilah",
-    noWhatsapp: "081231781812",
+    bankName: "Bank BCA",
+    accountNumber: "1234 5678 90",
+    accountHolderName: "Nama Pemilik Rekening",
+    contactName: "Nur Fatilah",
+    whatsappNumber: "081231781812",
     timeline: [
-      { label: "Pengajuan Dikirim", tanggal: "10 september 2026 - 09:55 WIB", done: true },
-      { label: "Pengajuan Diproses", tanggal: "19 september 2026 - 17:55 WIB", done: true },
-      { label: "Menunggu Verifikasi", tanggal: null, done: false },
+      { label: "Pengajuan Dikirim", date: "10 september 2026 - 09:55 WIB", done: true },
+      { label: "Pengajuan Diproses", date: "19 september 2026 - 17:55 WIB", done: true },
+      { label: "Menunggu Verifikasi", date: null, done: false },
     ],
   },
 ];
 
-// In-memory "database" untuk pengajuan baru yang dibuat lewat mock API,
-// supaya ThanksUp bisa menampilkan data hasil submit yang sesungguhnya
-// (bukan hardcode "PCR138-0001") selama sesi mock berjalan.
-let nextMockId = riwayatPencairanData.length + 1;
+// In-memory "database" for new submissions created via mock API,
+// so ThankYouModal can display actual submit results
+// (not hardcoded "PCR138-0001") during the mock session.
+let nextMockId = withdrawalHistoryData.length + 1;
 
-export function insertMockPengajuan(payload) {
+export function insertMockSubmission(payload) {
   const now = new Date();
-  const noPengajuan = `PCR${String(now.getFullYear()).slice(-2)}${String(
+  const submissionNumber = `PCR${String(now.getFullYear()).slice(-2)}${String(
     nextMockId
   ).padStart(4, "0")}`;
 
   const newItem = {
     id: nextMockId++,
-    noPengajuan,
-    tanggal: formatTanggalSingkat(now),
-    jam: formatJamWib(now),
+    submissionNumber,
+    date: formatShortDate(now),
+    time: formatTimeWib(now),
     nominal: payload.nominal,
     status: "Diproses",
     statusType: "warning",
     detailUrl: `/pencairan-dana/detail-dana?id=${nextMockId - 1}`,
-    nominalPencairan: payload.nominal,
-    lokasiPenyaluran: payload.lokasiPenyaluran,
-    tanggalPenyaluran: payload.tanggalPenyaluran,
-    jumlahPenerima: payload.jumlahPenerima,
-    deskripsiPenyaluran: payload.deskripsiPenyaluran,
-    namaBank: rekeningPencairan.namaBank,
-    nomorRekening: rekeningPencairan.nomorRekening,
-    namaPemilikRekening: rekeningPencairan.namaPemilikRekening,
-    namaKontak: kontakPenerima.namaKontak,
-    noWhatsapp: kontakPenerima.noWhatsapp,
+    withdrawalAmount: payload.nominal,
+    distributionLocation: payload.distributionLocation,
+    distributionDate: payload.distributionDate,
+    recipientCount: payload.recipientCount,
+    distributionDescription: payload.distributionDescription,
+    bankName: withdrawalAccount.bankName,
+    accountNumber: withdrawalAccount.accountNumber,
+    accountHolderName: withdrawalAccount.accountHolderName,
+    contactName: recipientContact.contactName,
+    whatsappNumber: recipientContact.whatsappNumber,
     timeline: [
-      { label: "Pengajuan Dikirim", tanggal: formatTanggalJamPenuh(now), done: true },
-      { label: "Pengajuan Diproses", tanggal: null, done: false },
-      { label: "Menunggu Verifikasi", tanggal: null, done: false },
+      { label: "Pengajuan Dikirim", date: formatFullDateTime(now), done: true },
+      { label: "Pengajuan Diproses", date: null, done: false },
+      { label: "Menunggu Verifikasi", date: null, done: false },
     ],
   };
 
-  riwayatPencairanData.unshift(newItem);
+  withdrawalHistoryData.unshift(newItem);
   return newItem;
 }
 
-function formatTanggalSingkat(date) {
+function formatShortDate(date) {
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
     month: "long",
@@ -239,7 +239,7 @@ function formatTanggalSingkat(date) {
   }).format(date);
 }
 
-function formatJamWib(date) {
+function formatTimeWib(date) {
   return `${new Intl.DateTimeFormat("id-ID", {
     hour: "2-digit",
     minute: "2-digit",
@@ -247,6 +247,6 @@ function formatJamWib(date) {
   }).format(date)} WIB`;
 }
 
-function formatTanggalJamPenuh(date) {
-  return `${formatTanggalSingkat(date)} - ${formatJamWib(date)}`;
+function formatFullDateTime(date) {
+  return `${formatShortDate(date)} - ${formatTimeWib(date)}`;
 }

@@ -24,12 +24,12 @@ import {
 export default function ThankYouModal({ isOpen, onClose, data }) {
   if (!isOpen) return null;
 
-  const noPengajuan = data?.noPengajuan || "-";
-  const tanggalPengajuan =
-    data?.tanggalPengajuan && data?.jamPengajuan
-      ? `${data.tanggalPengajuan}, ${data.jamPengajuan}`
-      : data?.tanggalPengajuan || "-";
-  const estimasiVerifikasi = data?.estimasiVerifikasi || "1–2 Hari Kerja";
+  const submissionNumber = data?.submissionNumber || data?.noPengajuan || "-";
+  const submissionDate =
+    (data?.submissionDate || data?.tanggalPengajuan) && (data?.submissionTime || data?.jamPengajuan)
+      ? `${data?.submissionDate || data?.tanggalPengajuan}, ${data?.submissionTime || data?.jamPengajuan}`
+      : data?.submissionDate || data?.tanggalPengajuan || "-";
+  const verificationEstimate = data?.verificationEstimate || data?.estimasiVerifikasi || "1–2 Hari Kerja";
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 p-4 md:p-8">
@@ -82,7 +82,7 @@ export default function ThankYouModal({ isOpen, onClose, data }) {
               </span>
             </div>
             <span className="max-w-[48%] wrap-break-words text-right text-xs font-medium leading-snug text-[#2671CE]">
-              {noPengajuan}
+              {submissionNumber}
             </span>
           </div>
 
@@ -95,7 +95,7 @@ export default function ThankYouModal({ isOpen, onClose, data }) {
               </span>
             </div>
             <span className="max-w-[48%] wrap-break-words text-right text-xs font-medium leading-snug text-[#2671CE]">
-              {tanggalPengajuan}
+              {submissionDate}
             </span>
           </div>
 
@@ -108,7 +108,7 @@ export default function ThankYouModal({ isOpen, onClose, data }) {
               </span>
             </div>
             <span className="max-w-[48%] wrap-break-words text-right text-xs font-medium leading-snug text-[#2671CE]">
-              {estimasiVerifikasi}
+              {verificationEstimate}
             </span>
           </div>
         </div>

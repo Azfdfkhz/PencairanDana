@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { Clock, Play } from "lucide-react";
 
-import { getRincianDana } from "@/api/withdrawalApi";
+import { getFundDetails } from "@/api/withdrawalApi";
 import useAsyncData from "@/hooks/useAsyncData";
 import { formatRupiah } from "@/lib/format";
 import LoadingState from "@/components/states/LoadingState";
 import ErrorState from "@/components/states/ErrorState";
 
 export default function FundDetails() {
-  const [showRincianOptimasi, setShowRincianOptimasi] = useState(false);
-  const { data, status, error, reload } = useAsyncData(getRincianDana, {
+  const [showOptimizationBreakdown, setShowOptimizationBreakdown] = useState(false);
+  const { data, status, error, reload } = useAsyncData(getFundDetails, {
     isEmpty: (d) => !d,
   });
 
@@ -49,15 +49,15 @@ export default function FundDetails() {
           {/* Header row */}
           <div className="flex items-center justify-between pb-2 text-sm font-medium text-[#1e293b]">
             <span>Dana Terkumpul</span>
-            <span>{formatRupiah(data.danaTerkumpul)}</span>
+            <span>{formatRupiah(data.totalFundsCollected)}</span>
           </div>
 
           <div className="my-2 space-y-2.5 rounded-lg border border-[#d2e4ff] bg-[#f2f7fe] p-4 text-xs font-medium text-[#334155]">
             <div>
               <button
                 type="button"
-                onClick={() => setShowRincianOptimasi((prev) => !prev)}
-                aria-expanded={showRincianOptimasi}
+                onClick={() => setShowOptimizationBreakdown((prev) => !prev)}
+                aria-expanded={showOptimizationBreakdown}
                 className="flex w-full items-center justify-between"
               >
                 <span className="flex items-center gap-1.5">
@@ -65,17 +65,17 @@ export default function FundDetails() {
                   <Play
                     size={10}
                     className={`fill-[#89C3EE] text-[#89C3EE] transition-transform duration-200 ${
-                      showRincianOptimasi ? "rotate-90" : "rotate-0"
+                      showOptimizationBreakdown ? "rotate-90" : "rotate-0"
                     }`}
                   />
                 </span>
-                <span>{formatRupiah(data.biayaOptimasi.total)}</span>
+                <span>{formatRupiah(data.optimizationFee.total)}</span>
               </button>
 
-              {/* Sub-rincian Biaya Optimasi */}
-              {showRincianOptimasi && (
+              {/* Optimization Fee Breakdown */}
+              {showOptimizationBreakdown && (
                 <div className="mt-2 ml-4 space-y-1.5 border-l border-[#d2e4ff] pl-3">
-                  {data.biayaOptimasi.rincian.map((item) => (
+                  {data.optimizationFee.breakdown.map((item) => (
                     <div
                       key={item.label}
                       className="flex items-center justify-between text-[11px] text-[#64748b]"
@@ -90,29 +90,29 @@ export default function FundDetails() {
 
             <div className="flex items-center justify-between">
               <span>Biaya Payment Gateway</span>
-              <span>{formatRupiah(data.biayaPaymentGateway)}</span>
+              <span>{formatRupiah(data.paymentGatewayFee)}</span>
             </div>
 
             <div className="flex items-center justify-between">
               <span>Biaya Platform</span>
-              <span>{formatRupiah(data.biayaPlatform)}</span>
+              <span>{formatRupiah(data.platformFee)}</span>
             </div>
 
             <div className="flex items-center justify-between">
               <span>Sudah Dicairkan</span>
-              <span>{formatRupiah(data.sudahDicairkan)}</span>
+              <span>{formatRupiah(data.alreadyWithdrawn)}</span>
             </div>
           </div>
 
           {/* Bisa Dicairkan Total */}
           <div className="flex items-center justify-between pt-4 text-base md:text-lg font-extrabold text-[#1e293b]">
             <span>Bisa Dicairkan</span>
-            <span>{formatRupiah(data.bisaDicairkan)}</span>
+            <span>{formatRupiah(data.availableToWithdraw)}</span>
           </div>
         </div>
       </div>
 
-      {/* Footer info update */}
+      {/* Footer: last update info */}
       <div className="mt-5 flex items-center gap-2 text-xs font-medium text-[#94a3b8]">
         <Clock size={15} />
         <span>Data terakhir di update pada {lastUpdatedLabel} WIB</span>

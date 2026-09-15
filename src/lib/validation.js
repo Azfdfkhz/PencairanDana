@@ -1,28 +1,28 @@
-// Aturan validasi terpusat untuk form pengajuan pencairan dana.
-// Setiap fungsi validate* mengembalikan string pesan error 
-// atau `null` jika valid, supaya mudah dipakai langsung di komponen:
+// Centralized validation rules for the fund disbursement submission form.
+// Each validate* function returns an error message string
+// or `null` if valid, for easy use in components:
 //
-//   const errors = validateFormPengajuan(formValues, { saldoTersedia });
-//   if (Object.keys(errors).length > 0) { ...tampilkan errors... }
+//   const errors = validateSubmissionForm(formValues, { availableBalance });
+//   if (Object.keys(errors).length > 0) { ...show errors... }
 
 import { parseRupiah } from "./format";
 
 export const MIN_NOMINAL_PENCAIRAN = 100000;
 
 /**
- * @param {"semua"|"lain"} pilihanNominal
- * @param {string} nominalLain - string ber-format "1.234.567" (tanpa "Rp")
- * @param {number} saldoTersedia
+ * @param {"semua"|"lain"} amountOption
+ * @param {string} customAmount - formatted string "1.234.567" (without "Rp")
+ * @param {number} availableBalance
  */
-export function validateNominal(pilihanNominal, nominalLain, saldoTersedia) {
-  if (pilihanNominal === "semua") {
-    if (!saldoTersedia || saldoTersedia < MIN_NOMINAL_PENCAIRAN) {
+export function validateNominal(amountOption, customAmount, availableBalance) {
+  if (amountOption === "semua") {
+    if (!availableBalance || availableBalance < MIN_NOMINAL_PENCAIRAN) {
       return "Saldo tersedia tidak mencukupi minimal pencairan.";
     }
     return null;
   }
 
-  const nominal = parseRupiah(nominalLain);
+  const nominal = parseRupiah(customAmount);
 
   if (!nominal) {
     return "Nominal pencairan wajib diisi.";
@@ -32,19 +32,19 @@ export function validateNominal(pilihanNominal, nominalLain, saldoTersedia) {
       "id-ID"
     )}.`;
   }
-  if (nominal > saldoTersedia) {
+  if (nominal > availableBalance) {
     return "Nominal melebihi saldo yang tersedia untuk dicairkan.";
   }
   return null;
 }
 
 /**
- * @param {string} tanggal - string date (yyyy-mm-dd dari <input type="date">)
+ * @param {string} date - date string (yyyy-mm-dd from <input type="date">)
  */
-export function validateTanggalPenyaluran(tanggal) {
-  if (!tanggal) return "Rencana tanggal penyaluran wajib diisi.";
+export function validateDistributionDate(date) {
+  if (!date) return "Rencana tanggal penyaluran wajib diisi.";
 
-  const selected = new Date(tanggal);
+  const selected = new Date(date);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -58,10 +58,10 @@ export function validateTanggalPenyaluran(tanggal) {
 }
 
 /**
- * @param {string|number} jumlah
+ * @param {string|number} count
  */
-export function validateJumlahPenerima(jumlah) {
-  const value = String(jumlah ?? "").trim();
+export function validateRecipientCount(count) {
+  const value = String(count ?? "").trim();
   if (!value) return "Jumlah penerima manfaat wajib diisi.";
   if (!/^\d+$/.test(value)) return "Jumlah penerima manfaat harus berupa angka.";
   if (Number(value) <= 0) return "Jumlah penerima manfaat harus lebih dari 0.";
@@ -69,20 +69,20 @@ export function validateJumlahPenerima(jumlah) {
 }
 
 /**
- * @param {string} lokasi
+ * @param {string} location
  */
-export function validateLokasiPenyaluran(lokasi) {
-  const value = String(lokasi ?? "").trim();
+export function validateDistributionLocation(location) {
+  const value = String(location ?? "").trim();
   if (!value) return "Lokasi penyaluran wajib diisi.";
   if (value.length < 3) return "Lokasi penyaluran terlalu singkat.";
   return null;
 }
 
 /**
- * @param {string} deskripsi
+ * @param {string} description
  */
-export function validateDeskripsiPenyaluran(deskripsi) {
-  const value = String(deskripsi ?? "").trim();
+export function validateDistributionDescription(description) {
+  const value = String(description ?? "").trim();
   if (!value) return "Deskripsi rencana penyaluran wajib diisi.";
   if (value.length < 20) {
     return "Deskripsi rencana penyaluran minimal 20 karakter.";
@@ -91,39 +91,39 @@ export function validateDeskripsiPenyaluran(deskripsi) {
 }
 
 /**
- * @param {string} nomorRekening
+ * @param {string} accountNumber
  */
-export function validateNomorRekening(nomorRekening) {
-  const digitsOnly = String(nomorRekening ?? "").replace(/\D/g, "");
+export function validateAccountNumber(accountNumber) {
+  const digitsOnly = String(accountNumber ?? "").replace(/\D/g, "");
   if (!digitsOnly) return "Nomor rekening wajib diisi.";
   if (digitsOnly.length < 6) return "Nomor rekening tidak valid.";
   return null;
 }
 
 /**
- * Validasi seluruh form pengajuan pencairan sekaligus.
- * @returns {Record<string, string>} map field -> pesan error (hanya field yang invalid)
+ * Validate the entire disbursement submission form at once.
+ * @returns {Record<string, string>} map of field -> error message (only invalid fields)
  */
-export function validateFormPengajuan(
-  { pilihanNominal, nominalLain, tanggalPenyaluran, jumlahPenerima, lokasiPenyaluran, deskripsiPenyaluran },
-  { saldoTersedia }
+export function validateSubmissionForm(
+  { amountOption, customAmount, distributionDate, recipientCount, distributionLocation, distributionDescription },
+  { availableBalance }
 ) {
   const errors = {};
 
-  const nominalError = validateNominal(pilihanNominal, nominalLain, saldoTersedia);
+  const nominalError = validateNominal(amountOption, customAmount, availableBalance);
   if (nominalError) errors.nominal = nominalError;
 
-  const tanggalError = validateTanggalPenyaluran(tanggalPenyaluran);
-  if (tanggalError) errors.tanggalPenyaluran = tanggalError;
+  const dateError = validateDistributionDate(distributionDate);
+  if (dateError) errors.distributionDate = dateError;
 
-  const jumlahError = validateJumlahPenerima(jumlahPenerima);
-  if (jumlahError) errors.jumlahPenerima = jumlahError;
+  const countError = validateRecipientCount(recipientCount);
+  if (countError) errors.recipientCount = countError;
 
-  const lokasiError = validateLokasiPenyaluran(lokasiPenyaluran);
-  if (lokasiError) errors.lokasiPenyaluran = lokasiError;
+  const locationError = validateDistributionLocation(distributionLocation);
+  if (locationError) errors.distributionLocation = locationError;
 
-  const deskripsiError = validateDeskripsiPenyaluran(deskripsiPenyaluran);
-  if (deskripsiError) errors.deskripsiPenyaluran = deskripsiError;
+  const descriptionError = validateDistributionDescription(distributionDescription);
+  if (descriptionError) errors.distributionDescription = descriptionError;
 
   return errors;
 }

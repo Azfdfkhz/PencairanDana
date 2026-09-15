@@ -1,23 +1,23 @@
-// app/lib/apiClient.js
+// src/lib/apiClient.js
 //
-// Fetch wrapper terpusat untuk seluruh aplikasi.
-// - USE_MOCK hanya aktif saat development dan NEXT_PUBLIC_API_URL belum diisi.
-//   Production selalu fail-closed dan tidak pernah memakai data demo.
-// - Semua error dilempar sebagai ApiError (instance Error) agar konsisten
-//   ditangani oleh useAsyncData/komponen (message, status, cause).
+// Centralized fetch wrapper for the entire application.
+// - USE_MOCK is only active during development when NEXT_PUBLIC_API_URL is not set.
+//   Production always fails closed and never uses demo data.
+// - All errors are thrown as ApiError (Error instance) for consistent
+//   handling by useAsyncData/components (message, status, cause).
 
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
 
-// Mock hanya untuk development lokal. Deployment production tanpa API URL
-// akan menampilkan error state, bukan data demo atau menerima submit palsu.
+// Mock only for local development. Production deployment without API URL
+// will show error state, not demo data or accept fake submissions.
 export const USE_MOCK = process.env.NODE_ENV !== "production" && !API_URL;
 
 const DEFAULT_TIMEOUT_MS = 15000;
 
-// Token bearer opsional, di-set sekali setelah login (mis. dari halaman/handler
-// login: `setAuthToken(token)`), lalu otomatis dilampirkan ke setiap apiFetch
-// sebagai header Authorization. Dipakai kalau backend memakai skema token,
-// bukan cookie session.
+// Optional bearer token, set once after login (e.g. from login page/handler:
+// `setAuthToken(token)`), then automatically attached to every apiFetch
+// as an Authorization header. Used when the backend uses a token scheme
+// instead of cookie sessions.
 let authToken = null;
 
 export function setAuthToken(token) {
@@ -39,20 +39,20 @@ export class ApiError extends Error {
 }
 
 /**
- * Simulasi latency network untuk mode mock, supaya loading/skeleton state
- * pada komponen bisa terlihat & teruji secara realistis.
+ * Simulate network latency for mock mode, so that loading/skeleton states
+ * on components can be seen and tested realistically.
  */
 export function mockDelay(ms = 500) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
- * apiFetch - wrapper di atas fetch() dengan:
- * - Timeout otomatis (AbortController)
- * - Header default (Content-Type: application/json)
- * - Parsing JSON otomatis + pelemparan ApiError yang konsisten
+ * apiFetch - wrapper over fetch() with:
+ * - Automatic timeout (AbortController)
+ * - Default headers (Content-Type: application/json)
+ * - Automatic JSON parsing + consistent ApiError throwing
  *
- * @param {string} path - path relatif (akan digabung dengan API_URL), atau URL penuh
+ * @param {string} path - relative path (joined with API_URL), or full URL
  * @param {RequestInit & { timeoutMs?: number }} options
  */
 export async function apiFetch(path, options = {}) {
@@ -60,7 +60,7 @@ export async function apiFetch(path, options = {}) {
 
   if (USE_MOCK) {
     throw new ApiError(
-      "apiFetch dipanggil saat USE_MOCK aktif. Set NEXT_PUBLIC_API_URL untuk memakai backend asli.",
+      "apiFetch called while USE_MOCK is active. Set NEXT_PUBLIC_API_URL to use the real backend.",
       { code: "MOCK_MODE_ACTIVE" }
     );
   }
@@ -74,7 +74,7 @@ export async function apiFetch(path, options = {}) {
   try {
     response = await fetch(url, {
       ...rest,
-      // Kirim cookie (mis. session login) walau API_URL beda origin dari app ini.
+      // Send cookies (e.g. login session) even if API_URL is a different origin.
       credentials: rest.credentials || "include",
       headers: {
         "Content-Type": "application/json",
@@ -86,12 +86,12 @@ export async function apiFetch(path, options = {}) {
   } catch (err) {
     clearTimeout(timeoutId);
     if (err.name === "AbortError") {
-      throw new ApiError("Permintaan melebihi batas waktu. Silakan coba lagi.", {
+      throw new ApiError("Request timed out. Please try again.", {
         code: "TIMEOUT",
         cause: err,
       });
     }
-    throw new ApiError("Tidak dapat terhubung ke server. Periksa koneksi Anda.", {
+    throw new ApiError("Unable to connect to the server. Check your connection.", {
       code: "NETWORK_ERROR",
       cause: err,
     });
@@ -106,13 +106,13 @@ export async function apiFetch(path, options = {}) {
       ? await response.json()
       : await response.text();
   } catch (err) {
-    // Response tanpa body / gagal parse; abaikan dan lanjutkan pengecekan status.
+    // Response without body / failed to parse; ignore and proceed with status check.
   }
 
   if (!response.ok) {
     const message =
       (body && typeof body === "object" && (body.message || body.error)) ||
-      `Permintaan gagal (status ${response.status})`;
+      `Request failed (status ${response.status})`;
     throw new ApiError(message, {
       status: response.status,
       code: response.status === 401 ? "UNAUTHORIZED" : "HTTP_ERROR",

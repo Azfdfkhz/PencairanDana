@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useEffectEvent, useState } from "react";
 
 /**
- * useAsyncData - hook generik untuk state loading/error/empty/success
- * yang konsisten di semua komponen yang mengambil data dari app/API.
+ * useAsyncData - generic hook for consistent loading/error/empty/success
+ * state across all components that fetch data from the API layer.
  *
  *   const { data, status, error, reload } = useAsyncData(
- *     () => getRiwayatPencairan(),
+ *     () => getWithdrawalHistory(),
  *     { deps: [], isEmpty: (d) => !d || d.length === 0 }
  *   );
  *
@@ -58,7 +58,7 @@ export function useAsyncData(fetcher, options = {}) {
     return () => {
       cancelled = true;
     };
-  // deps sengaja dinamis karena hook mendukung dependency caller-specific.
+  // deps are intentionally dynamic because the hook supports caller-specific dependencies.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, reloadToken, ...deps]);
 

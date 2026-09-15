@@ -3,35 +3,35 @@
 import React from "react";
 import { Wallet } from "lucide-react";
 
-import { getRingkasanDana } from "@/api/withdrawalApi";
+import { getFundSummary } from "@/api/withdrawalApi";
 import useAsyncData from "@/hooks/useAsyncData";
 import { formatRupiah, formatNumberInput } from "@/lib/format";
 import LoadingState from "@/components/states/LoadingState";
 import ErrorState from "@/components/states/ErrorState";
 
 export default function WithdrawalAmount({
-  pilihanNominal = "semua",
-  setPilihanNominal,
-  nominalLain = "",
-  setNominalLain,
+  amountOption = "semua",
+  setAmountOption,
+  customAmount = "",
+  setCustomAmount,
   error,
-  onSaldoLoaded,
+  onBalanceLoaded,
 }) {
-  const { data, status, error: fetchError, reload } = useAsyncData(getRingkasanDana, {
+  const { data, status, error: fetchError, reload } = useAsyncData(getFundSummary, {
     isEmpty: (d) => !d,
   });
 
-  const saldoTersedia = data?.bisaDicairkan ?? 0;
+  const availableBalance = data?.availableToWithdraw ?? 0;
 
   React.useEffect(() => {
-    if (status === "success" && onSaldoLoaded) {
-      onSaldoLoaded(saldoTersedia);
+    if (status === "success" && onBalanceLoaded) {
+      onBalanceLoaded(availableBalance);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, saldoTersedia]);
+  }, [status, availableBalance]);
 
-  const handleNominalChange = (e) => {
-    setNominalLain(formatNumberInput(e.target.value));
+  const handleAmountChange = (e) => {
+    setCustomAmount(formatNumberInput(e.target.value));
   };
 
   if (status === "loading") {
@@ -67,13 +67,13 @@ export default function WithdrawalAmount({
         Masukkan nominal dana yang ingin Anda cairkan
       </p>
 
-      {/* Container Saldo & Pilihan Nominal */}
+      {/* Balance & Amount Option Container */}
       <div
         className={`overflow-hidden rounded-xl border bg-[#f0f6fe] ${
           error ? "border-rose-300" : "border-[#d0e2ff]"
         }`}
       >
-        {/* Header Saldo Tersedia */}
+        {/* Available Balance Header */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#d0e2ff] p-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-[#0052cc] shadow-2xs">
@@ -84,20 +84,20 @@ export default function WithdrawalAmount({
                 Saldo tersedia untuk dicairkan
               </p>
               <p className="text-lg font-semibold text-[#07B433]">
-                {formatRupiah(saldoTersedia)}
+                {formatRupiah(availableBalance)}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Pilihan Button / Radio Options */}
+        {/* Radio Options */}
         <div className="space-y-3 bg-white p-4">
-          {/* Option 1: Cairkan Semua Saldo Tersedia */}
+          {/* Option 1: Withdraw All Available Balance */}
           <button
             type="button"
-            onClick={() => setPilihanNominal("semua")}
+            onClick={() => setAmountOption("semua")}
             className={`flex w-full items-center justify-between rounded-lg border p-3.5 text-left transition-all ${
-              pilihanNominal === "semua"
+              amountOption === "semua"
                 ? "border-[#0052cc] bg-[#f8fafc] ring-1 ring-[#0052cc]"
                 : "border-gray-200 hover:border-gray-300"
             }`}
@@ -105,12 +105,12 @@ export default function WithdrawalAmount({
             <div className="flex items-center gap-3">
               <div
                 className={`flex h-5 w-5 items-center justify-center rounded-full border ${
-                  pilihanNominal === "semua"
+                  amountOption === "semua"
                     ? "border-[#0052cc] bg-[#0052cc]"
                     : "border-gray-300"
                 }`}
               >
-                {pilihanNominal === "semua" && (
+                {amountOption === "semua" && (
                   <div className="h-2 w-2 rounded-full bg-white" />
                 )}
               </div>
@@ -120,17 +120,17 @@ export default function WithdrawalAmount({
             </div>
 
             <span className="text-xs font-semibold text-[#07B433] md:text-sm">
-              {formatRupiah(saldoTersedia)}
+              {formatRupiah(availableBalance)}
             </span>
           </button>
 
-          {/* Option 2: Masukkan Nominal Lain */}
+          {/* Option 2: Enter Custom Amount */}
           <div className="space-y-3">
             <button
               type="button"
-              onClick={() => setPilihanNominal("lain")}
+              onClick={() => setAmountOption("lain")}
               className={`flex w-full items-center justify-between rounded-lg border p-3.5 text-left transition-all ${
-                pilihanNominal === "lain"
+                amountOption === "lain"
                   ? "border-[#0052cc] bg-[#f8fafc] ring-1 ring-[#0052cc]"
                   : "border-gray-200 hover:border-gray-300"
               }`}
@@ -138,12 +138,12 @@ export default function WithdrawalAmount({
               <div className="flex items-center gap-3">
                 <div
                   className={`flex h-5 w-5 items-center justify-center rounded-full border ${
-                    pilihanNominal === "lain"
+                    amountOption === "lain"
                       ? "border-[#0052cc] bg-[#0052cc]"
                       : "border-gray-300"
                   }`}
                 >
-                  {pilihanNominal === "lain" && (
+                  {amountOption === "lain" && (
                     <div className="h-2 w-2 rounded-full bg-white" />
                   )}
                 </div>
@@ -153,8 +153,8 @@ export default function WithdrawalAmount({
               </div>
             </button>
 
-            {/* Input Nominal Kustom */}
-            {pilihanNominal === "lain" && (
+            {/* Custom Amount Input */}
+            {amountOption === "lain" && (
               <div className="pt-1">
                 <div
                   className={`relative overflow-hidden rounded-lg border bg-white ${
@@ -168,8 +168,8 @@ export default function WithdrawalAmount({
                   <input
                     type="text"
                     inputMode="numeric"
-                    value={nominalLain}
-                    onChange={handleNominalChange}
+                    value={customAmount}
+                    onChange={handleAmountChange}
                     placeholder="Contoh: 50.000.000"
                     className="w-full rounded-lg py-2.5 pl-15 pr-4 text-sm font-semibold text-[#1e293b] outline-hidden focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc]"
                   />

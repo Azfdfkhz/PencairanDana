@@ -1,9 +1,9 @@
-// app/lib/format.js
-// Util format terpusat (nominal rupiah, angka, dll) agar tidak lagi
-// tersebar & duplikat di tiap komponen.
+// src/lib/format.js
+// Centralized format utilities (rupiah nominal, numbers, etc.)
+// to avoid duplication across components.
 
 /**
- * Ubah angka/string angka menjadi format "Rp 1.234.567".
+ * Convert a number/numeric string to "Rp 1.234.567" format.
  * @param {number|string} value
  */
 export function formatRupiah(value) {
@@ -16,8 +16,8 @@ export function formatRupiah(value) {
 }
 
 /**
- * Format input string angka mentah (dari <input>) menjadi "1.234.567"
- * (tanpa prefix "Rp"), sambil membuang karakter non-digit.
+ * Format a raw numeric input string (from <input>) to "1.234.567"
+ * (without "Rp" prefix), stripping non-digit characters.
  * @param {string} rawInput
  */
 export function formatNumberInput(rawInput) {
@@ -27,7 +27,7 @@ export function formatNumberInput(rawInput) {
 }
 
 /**
- * Ambil nilai numerik murni dari string ber-format "Rp 1.234.567" / "1.234.567".
+ * Extract the pure numeric value from a formatted string "Rp 1.234.567" / "1.234.567".
  * @param {string|number} value
  * @returns {number}
  */
@@ -38,10 +38,10 @@ export function parseRupiah(value) {
 }
 
 /**
- * Format Date/ISO string menjadi label tanggal Indonesia, mis. "07 July 2026".
+ * Format a Date/ISO string to an Indonesian date label, e.g. "07 July 2026".
  * @param {string|Date} date
  */
-export function formatTanggal(date) {
+export function formatDate(date) {
   const d = date instanceof Date ? date : new Date(date);
   if (Number.isNaN(d.getTime())) return "";
   return new Intl.DateTimeFormat("id-ID", {
@@ -52,10 +52,10 @@ export function formatTanggal(date) {
 }
 
 /**
- * Format jumlah menjadi label "150 Orang".
+ * Format a count into a label like "150 Orang".
  * @param {number|string} count
  */
-export function formatJumlahPenerima(count) {
+export function formatRecipientCount(count) {
   const number = Number(String(count).replace(/\D/g, ""));
   if (!Number.isFinite(number) || number <= 0) return "-";
   return `${new Intl.NumberFormat("id-ID").format(number)} Orang`;

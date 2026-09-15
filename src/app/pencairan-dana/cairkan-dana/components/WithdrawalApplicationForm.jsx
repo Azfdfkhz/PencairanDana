@@ -14,34 +14,34 @@ import {
 } from "lucide-react";
 
 import { formatRupiah, parseRupiah } from "@/lib/format";
-import { validateFormPengajuan } from "@/lib/validation";
+import { validateSubmissionForm } from "@/lib/validation";
 
 export default function WithdrawalApplicationForm() {
   const [step, setStep] = useState(1);
-  const [pilihanNominal, setPilihanNominal] = useState("semua");
-  const [nominalLain, setNominalLain] = useState("");
-  const [tanggalPenyaluran, setTanggalPenyaluran] = useState("");
-  const [jumlahPenerima, setJumlahPenerima] = useState("");
-  const [lokasiPenyaluran, setLokasiPenyaluran] = useState("");
-  const [deskripsiPenyaluran, setDeskripsiPenyaluran] = useState("");
-  const [saldoTersedia, setSaldoTersedia] = useState(0);
+  const [amountOption, setAmountOption] = useState("semua");
+  const [customAmount, setCustomAmount] = useState("");
+  const [distributionDate, setDistributionDate] = useState("");
+  const [recipientCount, setRecipientCount] = useState("");
+  const [distributionLocation, setDistributionLocation] = useState("");
+  const [distributionDescription, setDistributionDescription] = useState("");
+  const [availableBalance, setAvailableBalance] = useState(0);
   const [errors, setErrors] = useState({});
 
   const nominalNumeric =
-    pilihanNominal === "semua" ? saldoTersedia : parseRupiah(nominalLain);
+    amountOption === "semua" ? availableBalance : parseRupiah(customAmount);
 
   const formData = {
     nominal: formatRupiah(nominalNumeric),
-    tanggal: tanggalPenyaluran,
-    jumlahPenerima: jumlahPenerima ? `${jumlahPenerima} Orang` : "",
-    lokasi: lokasiPenyaluran,
-    deskripsi: deskripsiPenyaluran,
+    date: distributionDate,
+    recipientCount: recipientCount ? `${recipientCount} Orang` : "",
+    location: distributionLocation,
+    description: distributionDescription,
   };
 
-  const handleSelanjutnya = () => {
-    const validationErrors = validateFormPengajuan(
-      { pilihanNominal, nominalLain, tanggalPenyaluran, jumlahPenerima, lokasiPenyaluran, deskripsiPenyaluran },
-      { saldoTersedia }
+  const handleNext = () => {
+    const validationErrors = validateSubmissionForm(
+      { amountOption, customAmount, distributionDate, recipientCount, distributionLocation, distributionDescription },
+      { availableBalance }
     );
 
     setErrors(validationErrors);
@@ -57,13 +57,13 @@ export default function WithdrawalApplicationForm() {
         formData={{
           ...formData,
           raw: {
-            pilihanNominal,
-            nominalLain,
+            amountOption,
+            customAmount,
             nominalNumeric,
-            tanggalPenyaluran,
-            jumlahPenerima,
-            lokasiPenyaluran,
-            deskripsiPenyaluran,
+            distributionDate,
+            recipientCount,
+            distributionLocation,
+            distributionDescription,
           },
         }}
         onBack={() => setStep(1)}
@@ -73,7 +73,7 @@ export default function WithdrawalApplicationForm() {
 
   return (
     <div className="mb-8 rounded-xl border border-gray-100 bg-white p-5 shadow-xs md:p-8">
-      {/* Header Pengajuan Pencairan Dana */}
+      {/* Disbursement Request Header */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold text-[#1e293b] md:text-2xl">
           Pengajuan Pencairan Dana
@@ -86,7 +86,7 @@ export default function WithdrawalApplicationForm() {
       {/* Stepper Indicator */}
       <div className="mb-8 flex justify-center w-full">
         <div className="flex items-start justify-center gap-2 sm:gap-4 w-full max-w-xs sm:max-w-md">
-          {/* Informasi Pencairan */}
+          {/* Step 1: Disbursement Info */}
           <div className="flex flex-col items-center text-center w-28 sm:w-36">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0052cc] text-sm font-bold text-white shadow-xs">
               1
@@ -99,7 +99,7 @@ export default function WithdrawalApplicationForm() {
           {/* Line */}
           <div className="mt-4 w-full h-0.5 bg-gray-200" />
 
-          {/* Konfirmasi Pengajuan */}
+          {/* Step 2: Submission Confirmation */}
           <div className="flex flex-col items-center text-center w-28 sm:w-36">
             <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 bg-white text-sm font-bold text-gray-400">
               2
@@ -111,41 +111,41 @@ export default function WithdrawalApplicationForm() {
         </div>
       </div>
 
-      {/* Box Utama Form dengan Border Biru */}
+      {/* Main Form Container */}
       <div className="space-y-6 rounded-2xl border border-[#d0e2ff] bg-white p-5 md:p-7">
-        {/* Component Nominal Pencairan */}
+        {/* Withdrawal Amount Component */}
         <WithdrawalAmount
-          pilihanNominal={pilihanNominal}
-          setPilihanNominal={setPilihanNominal}
-          nominalLain={nominalLain}
-          setNominalLain={setNominalLain}
+          amountOption={amountOption}
+          setAmountOption={setAmountOption}
+          customAmount={customAmount}
+          setCustomAmount={setCustomAmount}
           error={errors.nominal}
-          onSaldoLoaded={setSaldoTersedia}
+          onBalanceLoaded={setAvailableBalance}
         />
 
-        {/* Inputs Grid (Rencana Tanggal, Jumlah Penerima, Lokasi, Deskripsi) */}
+        {/* Input Fields Grid */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {/* Field: Rencana Tanggal Penyaluran */}
+          {/* Field: Distribution Date */}
           <div>
             <label className="mb-1.5 block text-xs font-semibold text-black md:text-sm">
               Rencana Tanggal Penyaluran
             </label>
             <input
               type="date"
-              value={tanggalPenyaluran}
-              onChange={(e) => setTanggalPenyaluran(e.target.value)}
+              value={distributionDate}
+              onChange={(e) => setDistributionDate(e.target.value)}
               className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm cursor-pointer ${
-                errors.tanggalPenyaluran ? "border-rose-400" : "border-gray-300"
+                errors.distributionDate ? "border-rose-400" : "border-gray-300"
               }`}
             />
-            {errors.tanggalPenyaluran && (
+            {errors.distributionDate && (
               <p className="mt-1 text-[11px] font-medium text-rose-500">
-                {errors.tanggalPenyaluran}
+                {errors.distributionDate}
               </p>
             )}
           </div>
 
-          {/* Field: Jumlah Penerima Manfaat */}
+          {/* Field: Recipient Count */}
           <div>
             <label className="mb-1.5 block text-xs font-semibold text-black md:text-sm">
               Jumlah Penerima Manfaat
@@ -153,11 +153,11 @@ export default function WithdrawalApplicationForm() {
             <div className="relative">
               <input
                 type="text"
-                value={jumlahPenerima}
-                onChange={(e) => setJumlahPenerima(e.target.value.replace(/\D/g, ""))}
+                value={recipientCount}
+                onChange={(e) => setRecipientCount(e.target.value.replace(/\D/g, ""))}
                 placeholder="Contoh: 150"
                 className={`w-full rounded-lg border bg-white px-3.5 py-2.5 pr-10 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm ${
-                  errors.jumlahPenerima ? "border-rose-400" : "border-gray-300"
+                  errors.recipientCount ? "border-rose-400" : "border-gray-300"
                 }`}
               />
               <Users
@@ -165,14 +165,14 @@ export default function WithdrawalApplicationForm() {
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600"
               />
             </div>
-            {errors.jumlahPenerima && (
+            {errors.recipientCount && (
               <p className="mt-1 text-[11px] font-medium text-rose-500">
-                {errors.jumlahPenerima}
+                {errors.recipientCount}
               </p>
             )}
           </div>
 
-          {/* Field: Lokasi Penyaluran */}
+          {/* Field: Distribution Location */}
           <div>
             <label className="mb-1.5 block text-xs font-bold text-black md:text-sm">
               Lokasi Penyaluran
@@ -180,11 +180,11 @@ export default function WithdrawalApplicationForm() {
             <div className="relative">
               <input
                 type="text"
-                value={lokasiPenyaluran}
-                onChange={(e) => setLokasiPenyaluran(e.target.value)}
+                value={distributionLocation}
+                onChange={(e) => setDistributionLocation(e.target.value)}
                 placeholder="Contoh: Desa ABC, Kec. BED"
                 className={`w-full rounded-lg border bg-white px-3.5 py-2.5 pr-10 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm ${
-                  errors.lokasiPenyaluran ? "border-rose-400" : "border-gray-300"
+                  errors.distributionLocation ? "border-rose-400" : "border-gray-300"
                 }`}
               />
               <MapPin
@@ -192,14 +192,14 @@ export default function WithdrawalApplicationForm() {
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600"
               />
             </div>
-            {errors.lokasiPenyaluran && (
+            {errors.distributionLocation && (
               <p className="mt-1 text-[11px] font-medium text-rose-500">
-                {errors.lokasiPenyaluran}
+                {errors.distributionLocation}
               </p>
             )}
           </div>
 
-          {/* Field: Deskripsi Penyaluran */}
+          {/* Field: Distribution Description */}
           <div>
             <label className="mb-1.5 block text-xs font-semibold text-black md:text-sm">
               Deskripsi Penyaluran
@@ -207,11 +207,11 @@ export default function WithdrawalApplicationForm() {
             <div className="relative">
               <textarea
                 rows={3}
-                value={deskripsiPenyaluran}
-                onChange={(e) => setDeskripsiPenyaluran(e.target.value)}
+                value={distributionDescription}
+                onChange={(e) => setDistributionDescription(e.target.value)}
                 placeholder="Jelaskan tentang rencana penyaluran"
                 className={`w-full resize-none rounded-lg border bg-white px-3.5 py-2.5 pr-10 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm ${
-                  errors.deskripsiPenyaluran ? "border-rose-400" : "border-gray-300"
+                  errors.distributionDescription ? "border-rose-400" : "border-gray-300"
                 }`}
               />
               <FileText
@@ -219,9 +219,9 @@ export default function WithdrawalApplicationForm() {
                 className="absolute right-3.5 bottom-3 pointer-events-none text-gray-600"
               />
             </div>
-            {errors.deskripsiPenyaluran && (
+            {errors.distributionDescription && (
               <p className="mt-1 text-[11px] font-medium text-rose-500">
-                {errors.deskripsiPenyaluran}
+                {errors.distributionDescription}
               </p>
             )}
           </div>
@@ -244,10 +244,10 @@ export default function WithdrawalApplicationForm() {
           <span>Kembali</span>
         </Link>
 
-        {/* Button Selanjutnya */}
+        {/* Next Button */}
         <button
           type="button"
-          onClick={handleSelanjutnya}
+          onClick={handleNext}
           className="flex items-center gap-2 rounded-xl bg-[#0047CA] px-8 py-3.5 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#0047CA] active:scale-[0.98] cursor-pointer md:text-sm"
         >
           <span>Selanjutnya</span>

@@ -2,13 +2,13 @@
 
 import { Landmark, Info, Pencil, ShieldCheck } from "lucide-react";
 
-import { getRekeningPencairan } from "@/api/withdrawalApi";
+import { getWithdrawalAccount } from "@/api/withdrawalApi";
 import useAsyncData from "@/hooks/useAsyncData";
 import LoadingState from "@/components/states/LoadingState";
 import ErrorState from "@/components/states/ErrorState";
 
 export default function WithdrawalBankAccount({ onSubmit }) {
-  const { data, status, error, reload } = useAsyncData(getRekeningPencairan, {
+  const { data, status, error, reload } = useAsyncData(getWithdrawalAccount, {
     isEmpty: (d) => !d,
   });
 
@@ -34,7 +34,7 @@ export default function WithdrawalBankAccount({ onSubmit }) {
   return (
     <div className="mb-6 flex flex-col rounded-xl border border-gray-100 bg-white p-5 shadow-xs md:p-6">
       <div>
-        <h2 className="mb-5 text-base font-medium textblack1e293b]">
+        <h2 className="mb-5 text-base font-medium text-[#1e293b]">
           Rekening Pencairan Dana
         </h2>
 
@@ -53,16 +53,16 @@ export default function WithdrawalBankAccount({ onSubmit }) {
 
             {/* Account Info */}
             <div className="space-y-1">
-              <p className="text-xs font-bold text-black">{data.namaBank}</p>
+              <p className="text-xs font-bold text-black">{data.bankName}</p>
               <p className="text-xl md:text-2xl font-normal tracking-wide text-black">
-                {data.nomorRekening}
+                {data.accountNumber}
               </p>
               <p className="text-xs font-normal text-black">
-                {data.namaPemilikRekening}
+                {data.accountHolderName}
               </p>
 
               {/* Verified Badge */}
-              {data.terverifikasi && (
+              {data.verified && (
                 <div className="pt-1">
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
                     <span className="text-xs">✓</span> Terverifikasi
@@ -83,7 +83,7 @@ export default function WithdrawalBankAccount({ onSubmit }) {
         </div>
       </div>
 
-      {/* Ubah Rekening Button */}
+      {/* Change Bank Account Button */}
       <div className="mt-5">
         <button
           type="button"

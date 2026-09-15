@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ChevronRight, History } from "lucide-react";
 
 import StatusBadge from "@/app/pencairan-dana/components/StatusBadge";
-import { getRiwayatPencairan } from "@/api/withdrawalApi";
+import { getWithdrawalHistory } from "@/api/withdrawalApi";
 import useAsyncData from "@/hooks/useAsyncData";
 import LoadingState from "@/components/states/LoadingState";
 import ErrorState from "@/components/states/ErrorState";
@@ -12,11 +12,11 @@ import EmptyState from "@/components/states/EmptyState";
 
 export default function WithdrawalHistory() {
   const {
-    data: riwayatData,
+    data: historyData,
     status,
     error,
     reload,
-  } = useAsyncData(getRiwayatPencairan, {
+  } = useAsyncData(getWithdrawalHistory, {
     isEmpty: (d) => !d || d.length === 0,
   });
 
@@ -46,7 +46,7 @@ export default function WithdrawalHistory() {
       {status === "success" && (
         <>
           <div className="max-h-112 space-y-3 overflow-y-auto pr-1 md:hidden">
-            {riwayatData.map((item) => (
+            {historyData.map((item) => (
               <Link
                 key={item.id}
                 href={item.detailUrl}
@@ -54,8 +54,8 @@ export default function WithdrawalHistory() {
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="text-xs font-medium text-black">{item.tanggal}</p>
-                    <p className="text-[11px] text-[#8C8C8C]">{item.jam}</p>
+                    <p className="text-xs font-medium text-black">{item.date}</p>
+                    <p className="text-[11px] text-[#8C8C8C]">{item.time}</p>
                   </div>
                   <StatusBadge status={item.status} type={item.statusType} />
                 </div>
@@ -84,11 +84,11 @@ export default function WithdrawalHistory() {
               </thead>
 
               <tbody className="divide-y divide-gray-100">
-                {riwayatData.map((item) => (
+                {historyData.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/50">
                     <td className="py-3.5">
-                      <p className="font-medium text-black">{item.tanggal}</p>
-                      <p className="text-[11px] text-[#8C8C8C]">{item.jam}</p>
+                      <p className="font-medium text-black">{item.date}</p>
+                      <p className="text-[11px] text-[#8C8C8C]">{item.time}</p>
                     </td>
 
                     <td className="py-3.5 font-medium text-black">{item.nominal}</td>

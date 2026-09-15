@@ -12,11 +12,11 @@ import {
 } from "lucide-react";
 
 import Image from "next/image";
-import { csContact, ubahRekeningAssets } from "@/data/mockDb";
+import { csContact, changeBankAccountAssets } from "@/data/mockDb";
 
-const dokumenList = ubahRekeningAssets.dokumenList;
+const documentList = changeBankAccountAssets.documentList;
 const CS_WHATSAPP_NUMBER = csContact.whatsappNumber;
-const FORM_URL = ubahRekeningAssets.formUrl;
+const FORM_URL = changeBankAccountAssets.formUrl;
 
 export default function ChangeBankAccountModal({ open, onClose }) {
   useEffect(() => {
@@ -121,7 +121,7 @@ export default function ChangeBankAccountModal({ open, onClose }) {
               </p>
 
               <div className="space-y-1.5 rounded-lg border border-amber-200 bg-amber-50 p-3">
-                {dokumenList.map((item) => (
+                {documentList.map((item) => (
                   <div key={item} className="flex items-start gap-2">
                     <CheckCircle2
                       size={15}

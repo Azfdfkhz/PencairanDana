@@ -1,8 +1,8 @@
-// app/API/PencairanDana.js
+// src/api/withdrawalApi.js
 //
 // API layer for the entire Fund Disbursement feature.
 // While USE_MOCK is active (default, as long as NEXT_PUBLIC_API_URL is not set),
-// every function reads/writes to app/data/mockDb.js with simulated
+// every function reads/writes to data/mockDb.js with simulated
 // network latency.
 // Once NEXT_PUBLIC_API_URL is set, USE_MOCK automatically turns off and all
 // functions below call the real backend via apiFetch — without any
@@ -11,12 +11,12 @@
 import { apiFetch, ApiError, USE_MOCK, mockDelay } from "@/lib/apiClient";
 import {
   campaignInfo,
-  ringkasanDana,
-  rincianDana,
-  rekeningPencairan,
-  kontakPenerima,
-  riwayatPencairanData,
-  insertMockPengajuan,
+  fundSummary,
+  fundDetails,
+  withdrawalAccount,
+  recipientContact,
+  withdrawalHistoryData,
+  insertMockSubmission,
 } from "@/data/mockDb";
 import { formatRupiah } from "@/lib/format";
 import { validateOtp } from "@/lib/validation";
@@ -33,18 +33,18 @@ export async function getCampaignInfo() {
   return apiFetch("/pencairan/campaign");
 }
 
-export async function getRingkasanDana() {
+export async function getFundSummary() {
   if (USE_MOCK) {
     await mockDelay(400);
-    return ringkasanDana;
+    return fundSummary;
   }
   return apiFetch("/pencairan/ringkasan");
 }
 
-export async function getRincianDana() {
+export async function getFundDetails() {
   if (USE_MOCK) {
     await mockDelay(400);
-    return rincianDana;
+    return fundDetails;
   }
   return apiFetch("/pencairan/rincian");
 }
@@ -53,18 +53,18 @@ export async function getRincianDana() {
 /*  Account & Contact                                                  */
 /* ------------------------------------------------------------------ */
 
-export async function getRekeningPencairan() {
+export async function getWithdrawalAccount() {
   if (USE_MOCK) {
     await mockDelay(350);
-    return rekeningPencairan;
+    return withdrawalAccount;
   }
   return apiFetch("/pencairan/rekening");
 }
 
-export async function getKontakPenerima() {
+export async function getRecipientContact() {
   if (USE_MOCK) {
     await mockDelay(300);
-    return kontakPenerima;
+    return recipientContact;
   }
   return apiFetch("/pencairan/contact");
 }
@@ -73,18 +73,18 @@ export async function getKontakPenerima() {
 /*  History & Detail                                                   */
 /* ------------------------------------------------------------------ */
 
-export async function getRiwayatPencairan() {
+export async function getWithdrawalHistory() {
   if (USE_MOCK) {
     await mockDelay(500);
-    return riwayatPencairanData;
+    return withdrawalHistoryData;
   }
   return apiFetch("/pencairan/riwayat");
 }
 
-export async function getDetailPencairan(id) {
+export async function getWithdrawalDetail(id) {
   if (USE_MOCK) {
     await mockDelay(400);
-    const item = riwayatPencairanData.find((d) => d.id === Number(id));
+    const item = withdrawalHistoryData.find((d) => d.id === Number(id));
     if (!item) {
       throw new ApiError("Disbursement data not found", {
         status: 404,
@@ -103,22 +103,22 @@ export async function getDetailPencairan(id) {
 /**
  * @param {{
  *   nominal: string,
- *   tanggalPenyaluran: string,
- *   jumlahPenerima: string,
- *   lokasiPenyaluran: string,
- *   deskripsiPenyaluran: string,
+ *   distributionDate: string,
+ *   recipientCount: string,
+ *   distributionLocation: string,
+ *   distributionDescription: string,
  * }} payload
  */
-export async function submitPengajuanPencairan(payload) {
+export async function submitWithdrawalRequest(payload) {
   if (USE_MOCK) {
     await mockDelay(700);
-    const created = insertMockPengajuan(payload);
+    const created = insertMockSubmission(payload);
     return {
       id: created.id,
-      noPengajuan: created.noPengajuan,
-      tanggalPengajuan: created.tanggal,
-      jamPengajuan: created.jam,
-      estimasiVerifikasi: "1–2 Hari Kerja",
+      submissionNumber: created.submissionNumber,
+      submissionDate: created.date,
+      submissionTime: created.time,
+      verificationEstimate: "1–2 Hari Kerja",
       detailUrl: created.detailUrl,
     };
   }
@@ -141,7 +141,7 @@ export async function requestOtp() {
   if (USE_MOCK) {
     await mockDelay(500);
     return {
-      maskedPhone: kontakPenerima.noWhatsappMasked,
+      maskedPhone: recipientContact.whatsappNumberMasked,
       expiresInSeconds: OTP_EXPIRY_SECONDS,
       resendCooldownSeconds: OTP_RESEND_COOLDOWN_SECONDS,
     };
@@ -176,7 +176,7 @@ export async function resendOtp() {
   if (USE_MOCK) {
     await mockDelay(500);
     return {
-      maskedPhone: kontakPenerima.noWhatsappMasked,
+      maskedPhone: recipientContact.whatsappNumberMasked,
       expiresInSeconds: OTP_EXPIRY_SECONDS,
       resendCooldownSeconds: OTP_RESEND_COOLDOWN_SECONDS,
     };

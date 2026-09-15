@@ -22,7 +22,7 @@ import {
   SearchX,
 } from "lucide-react";
 
-import { getDetailPencairan } from "@/api/withdrawalApi";
+import { getWithdrawalDetail } from "@/api/withdrawalApi";
 import useAsyncData from "@/hooks/useAsyncData";
 import LoadingState from "@/components/states/LoadingState";
 import ErrorState from "@/components/states/ErrorState";
@@ -35,7 +35,7 @@ export default function WithdrawalApplicationDetail() {
   const { data, status, error, reload } = useAsyncData(
     async () => {
       try {
-        return await getDetailPencairan(id);
+        return await getWithdrawalDetail(id);
       } catch (err) {
         if (err?.status === 404) return null;
         throw err;
@@ -87,9 +87,9 @@ export default function WithdrawalApplicationDetail() {
     );
   }
 
-  const isDitolak = data.status === "Ditolak";
-  const isBerhasil = data.status === "Berhasil";
-  const isDiproses = data.status === "Diproses";
+  const isRejected = data.status === "Ditolak";
+  const isSuccessful = data.status === "Berhasil";
+  const isProcessing = data.status === "Diproses";
 
   // Badge color config
   const badgeConfig = {
@@ -128,15 +128,15 @@ export default function WithdrawalApplicationDetail() {
 
         {/* No Pengajuan */}
         <p className="mb-6 text-sm text-black">
-          No Pengajuan : <span className="font-bold">{data.noPengajuan}</span>
+          No Pengajuan : <span className="font-bold">{data.submissionNumber || data.noPengajuan}</span>
         </p>
 
         {/* === TIMELINE STEPPER === */}
         <div className="mb-8">
           <div className="flex items-start justify-between">
-            {data.timeline.map((step, index) => {
+            {(data.timeline || []).map((step, index) => {
               const isLast = index === data.timeline.length - 1;
-              const isRejected = step.rejected;
+              const isStepRejected = step.rejected;
 
               // Icon for each step
               let StepIcon = Send;
@@ -148,12 +148,12 @@ export default function WithdrawalApplicationDetail() {
                 StepIcon = Send;
               } else if (index === 1) {
                 StepIcon = Hourglass;
-              } else if (isLast && isRejected) {
+              } else if (isLast && isStepRejected) {
                 StepIcon = X;
                 iconBg = "bg-white border-2 border-red-500";
                 iconColor = "text-red-500";
                 labelColor = "text-red-500";
-              } else if (isLast && isBerhasil) {
+              } else if (isLast && isSuccessful) {
                 StepIcon = BadgeCheck;
                 iconBg = "bg-[#EAF3FC] border-2 border-[#2E68B2]";
               } else if (!step.done) {
@@ -171,9 +171,9 @@ export default function WithdrawalApplicationDetail() {
                     {index > 0 && (
                       <div
                         className={`absolute right-1/2 z-0 w-full ${
-                          isDitolak && index === 2
+                          isRejected && index === 2
                             ? "border-t-2 border-dashed border-red-400"
-                            : isDiproses && index === 2
+                            : isProcessing && index === 2
                               ? "border-t-2 border-dashed border-gray-300"
                               : "h-0.5 bg-[#0052cc]"
                         }`}
@@ -184,9 +184,9 @@ export default function WithdrawalApplicationDetail() {
                     {!isLast && (
                       <div
                         className={`absolute left-1/2 z-0 w-full ${
-                          isDitolak && index === 1
+                          isRejected && index === 1
                             ? "border-t-2 border-dashed border-red-400"
-                            : isDiproses && index === 1
+                            : isProcessing && index === 1
                               ? "border-t-2 border-dashed border-gray-300"
                               : "h-0.5 bg-[#0052cc]"
                         }`}
@@ -209,9 +209,9 @@ export default function WithdrawalApplicationDetail() {
                   </p>
 
                   {/* Date */}
-                  {step.tanggal && (
+                  {(step.date || step.tanggal) && (
                     <p className="mt-0.5 text-center text-[9px] text-[#94a3b8]">
-                      {step.tanggal}
+                      {step.date || step.tanggal}
                     </p>
                   )}
                 </div>
@@ -221,7 +221,7 @@ export default function WithdrawalApplicationDetail() {
         </div>
 
         {/* === CATATAN PENOLAKAN (only for Ditolak) === */}
-        {isDitolak && data.catatanPenolakan && (
+        {isRejected && (data.rejectionNote || data.catatanPenolakan) && (
         <div className="mb-6 overflow-hidden rounded-xl border border-gray-200 bg-white">
           {/* Header */}
           <div className="bg-[#FCEAEA] px-5 py-4">
@@ -233,7 +233,7 @@ export default function WithdrawalApplicationDetail() {
           {/* Content */}
           <div className="p-5">
             <p className="text-xs leading-relaxed text-black md:text-sm">
-              {data.catatanPenolakan}
+              {data.rejectionNote || data.catatanPenolakan}
             </p>
           </div>
         </div>
@@ -247,11 +247,11 @@ export default function WithdrawalApplicationDetail() {
             </h4>
           </div>
           <div className="space-y-4 bg-white p-5 md:p-6">
-            <InfoRow icon={Wallet} label="Nominal Pencairan" value={data.nominalPencairan} isBold />
-            <InfoRow icon={MapPin} label="Lokasi Penyaluran" value={data.lokasiPenyaluran} />
-            <InfoRow icon={Calendar} label="Rencana Tanggal Penyaluran" value={data.tanggalPenyaluran} />
-            <InfoRow icon={Users} label="Jumlah Penerima Manfaat" value={data.jumlahPenerima} />
-            <InfoRow icon={FileText} label="Deskripsi Rencana Penyaluran" value={data.deskripsiPenyaluran} />
+            <InfoRow icon={Wallet} label="Nominal Pencairan" value={data.withdrawalAmount || data.nominalPencairan || data.nominal} isBold />
+            <InfoRow icon={MapPin} label="Lokasi Penyaluran" value={data.distributionLocation || data.lokasiPenyaluran} />
+            <InfoRow icon={Calendar} label="Rencana Tanggal Penyaluran" value={data.distributionDate || data.tanggalPenyaluran} />
+            <InfoRow icon={Users} label="Jumlah Penerima Manfaat" value={data.recipientCount || data.jumlahPenerima} />
+            <InfoRow icon={FileText} label="Deskripsi Rencana Penyaluran" value={data.distributionDescription || data.deskripsiPenyaluran} />
           </div>
         </div>
 
@@ -280,12 +280,12 @@ export default function WithdrawalApplicationDetail() {
                     </span>
                   </div>
                   <p className="text-sm font-bold text-black md:text-base">
-                    {data.namaBank}
+                    {data.bankName || data.namaBank}
                   </p>
                   <p className="text-sm font-normal tracking-wider text-black md:text-base">
-                    {data.nomorRekening}
+                    {data.accountNumber || data.nomorRekening}
                   </p>
-                  <p className="text-xs text-black">{data.namaPemilikRekening}</p>
+                  <p className="text-xs text-black">{data.accountHolderName || data.namaPemilikRekening}</p>
                 </div>
               </div>
             </div>
@@ -308,7 +308,7 @@ export default function WithdrawalApplicationDetail() {
                 </span>
                 <span className="text-xs text-black md:text-sm">:</span>
                 <span className="text-xs font-normal text-black md:text-sm">
-                  {data.namaKontak}
+                  {data.contactName || data.namaKontak}
                 </span>
               </div>
             </div>
@@ -320,7 +320,7 @@ export default function WithdrawalApplicationDetail() {
                 </span>
                 <span className="text-xs text-black md:text-sm">:</span>
                 <span className="text-xs font-normal text-black md:text-sm">
-                  {data.noWhatsapp}
+                  {data.whatsappNumber || data.noWhatsapp}
                 </span>
               </div>
             </div>
@@ -328,7 +328,7 @@ export default function WithdrawalApplicationDetail() {
         </div>
 
         {/* === DOWNLOAD BUKTI PENCAIRAN (only for Berhasil) === */}
-        {isBerhasil && (
+        {isSuccessful && (
           <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
             <span className="text-sm font-semibold text-black">
               Download Bukti Pencairan :

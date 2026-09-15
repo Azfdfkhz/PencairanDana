@@ -22,42 +22,37 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import { getRekeningPencairan, getKontakPenerima, submitPengajuanPencairan } from "@/api/withdrawalApi";
-import useAsyncData from "@/hooks/useAsyncData";
-import LoadingState from "@/components/states/LoadingState";
-import ErrorState from "@/components/states/ErrorState";
-
 export default function ApplicationConfirmation({ onBack, formData }) {
   const router = useRouter();
-  const [setuju, setSetuju] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const [isVerifOpen, setIsVerifOpen] = useState(false);
   const [isThanksOpen, setIsThanksOpen] = useState(false);
-  const [isSyaratOpen, setIsSyaratOpen] = useState(false);
-  const [hasReadSyarat, setHasReadSyarat] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [hasReadTerms, setHasReadTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
-  const [pengajuanResult, setPengajuanResult] = useState(null);
+  const [submissionResult, setSubmissionResult] = useState(null);
 
   const {
-    data: rekening,
-    status: rekeningStatus,
-    error: rekeningError,
-    reload: reloadRekening,
-  } = useAsyncData(getRekeningPencairan, { isEmpty: (d) => !d });
+    data: account,
+    status: accountStatus,
+    error: accountError,
+    reload: reloadAccount,
+  } = useAsyncData(getWithdrawalAccount, { isEmpty: (d) => !d });
 
   const {
-    data: kontak,
-    status: kontakStatus,
-    error: kontakError,
-    reload: reloadKontak,
-  } = useAsyncData(getKontakPenerima, { isEmpty: (d) => !d });
+    data: contact,
+    status: contactStatus,
+    error: contactError,
+    reload: reloadContact,
+  } = useAsyncData(getRecipientContact, { isEmpty: (d) => !d });
 
   const displayData = {
     nominal: formData?.nominal,
-    lokasi: formData?.lokasi,
-    tanggal: formData?.tanggal,
-    jumlahPenerima: formData?.jumlahPenerima,
-    deskripsi: formData?.deskripsi,
+    location: formData?.location || formData?.lokasi,
+    date: formData?.date || formData?.tanggal,
+    recipientCount: formData?.recipientCount || formData?.jumlahPenerima,
+    description: formData?.description || formData?.deskripsi,
   };
 
   const handleOtpSuccess = async () => {
@@ -65,14 +60,14 @@ export default function ApplicationConfirmation({ onBack, formData }) {
     setSubmitError(null);
     try {
       const raw = formData?.raw || {};
-      const result = await submitPengajuanPencairan({
+      const result = await submitWithdrawalRequest({
         nominal: displayData.nominal,
-        tanggalPenyaluran: raw.tanggalPenyaluran,
-        jumlahPenerima: displayData.jumlahPenerima,
-        lokasiPenyaluran: raw.lokasiPenyaluran,
-        deskripsiPenyaluran: raw.deskripsiPenyaluran,
+        distributionDate: raw.distributionDate || raw.tanggalPenyaluran,
+        recipientCount: displayData.recipientCount,
+        distributionLocation: raw.distributionLocation || raw.lokasiPenyaluran,
+        distributionDescription: raw.distributionDescription || raw.deskripsiPenyaluran,
       });
-      setPengajuanResult(result);
+      setSubmissionResult(result);
       setIsVerifOpen(false);
       setIsThanksOpen(true);
     } catch (err) {
@@ -82,12 +77,12 @@ export default function ApplicationConfirmation({ onBack, formData }) {
     }
   };
 
-  const isLoadingContext = rekeningStatus === "loading" || kontakStatus === "loading";
+  const isLoadingContext = accountStatus === "loading" || contactStatus === "loading";
   const hasContextError =
-    rekeningStatus === "error" ||
-    rekeningStatus === "empty" ||
-    kontakStatus === "error" ||
-    kontakStatus === "empty";
+    accountStatus === "error" ||
+    accountStatus === "empty" ||
+    contactStatus === "error" ||
+    contactStatus === "empty";
 
   return (
     <div className="mb-8 rounded-xl border border-gray-100 bg-white p-5 shadow-xs md:p-8">
@@ -183,10 +178,10 @@ export default function ApplicationConfirmation({ onBack, formData }) {
         {/* Content */}
         <div className="space-y-4 bg-white p-5 md:p-6">
           <ConfirmRow icon={Wallet} label="Nominal Pencairan" value={displayData.nominal} isBold />
-          <ConfirmRow icon={MapPin} label="Lokasi Penyaluran" value={displayData.lokasi} />
-          <ConfirmRow icon={Calendar} label="Rencana Tanggal Penyaluran" value={displayData.tanggal} />
-          <ConfirmRow icon={Users} label="Jumlah Penerima Manfaat" value={displayData.jumlahPenerima} />
-          <ConfirmRow icon={FileText} label="Deskripsi Rencana Penyaluran" value={displayData.deskripsi} />
+          <ConfirmRow icon={MapPin} label="Lokasi Penyaluran" value={displayData.location} />
+          <ConfirmRow icon={Calendar} label="Rencana Tanggal Penyaluran" value={displayData.date} />
+          <ConfirmRow icon={Users} label="Jumlah Penerima Manfaat" value={displayData.recipientCount} />
+          <ConfirmRow icon={FileText} label="Deskripsi Rencana Penyaluran" value={displayData.description} />
         </div>
       </div>
 
@@ -203,10 +198,10 @@ export default function ApplicationConfirmation({ onBack, formData }) {
         {/* Content */}
         <div className="relative overflow-hidden bg-white p-5 md:p-6">
           {isLoadingContext && <LoadingState label="Memuat rekening..." compact />}
-          {rekeningStatus !== "loading" && (rekeningStatus === "error" || rekeningStatus === "empty") && (
-            <ErrorState message={rekeningError || "Rekening belum tersedia."} onRetry={reloadRekening} compact />
+          {accountStatus !== "loading" && (accountStatus === "error" || accountStatus === "empty") && (
+            <ErrorState message={accountError || "Rekening belum tersedia."} onRetry={reloadAccount} compact />
           )}
-          {rekeningStatus === "success" && (
+          {accountStatus === "success" && account && (
             <>
               {/* Decorative Shield Background */}
               <div className="pointer-events-none absolute right-7 bottom-7 opacity-[0.07]">
@@ -222,7 +217,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
 
                   {/* Bank Info */}
                   <div>
-                    {rekening.terverifikasi && (
+                    {account.verified && (
                       <div className="mb-1 inline-flex items-center gap-1 rounded-full bg-[#ecfdf5] px-2 py-0.5">
                         <div className="h-1.5 w-1.5 rounded-full bg-[#00b96b]" />
                         <span className="text-[10px] font-semibold text-[#059669]">
@@ -231,12 +226,12 @@ export default function ApplicationConfirmation({ onBack, formData }) {
                       </div>
                     )}
                     <p className="text-sm font-bold text-[#1e293b] md:text-base">
-                      {rekening.namaBank}
+                      {account.bankName}
                     </p>
                     <p className="text-sm font-semibold tracking-wider text-[#334155] md:text-base">
-                      {rekening.nomorRekening}
+                      {account.accountNumber}
                     </p>
-                    <p className="text-xs text-[#64748b]">{rekening.namaPemilikRekening}</p>
+                    <p className="text-xs text-[#64748b]">{account.accountHolderName}</p>
                   </div>
                 </div>
               </div>
@@ -257,11 +252,11 @@ export default function ApplicationConfirmation({ onBack, formData }) {
 
         {/* Content */}
         <div className="space-y-4 bg-white p-5 md:p-6">
-          {kontakStatus === "loading" && <LoadingState label="Memuat kontak..." compact />}
-          {(kontakStatus === "error" || kontakStatus === "empty") && (
-            <ErrorState message={kontakError || "Kontak belum tersedia."} onRetry={reloadKontak} compact />
+          {contactStatus === "loading" && <LoadingState label="Memuat kontak..." compact />}
+          {(contactStatus === "error" || contactStatus === "empty") && (
+            <ErrorState message={contactError || "Kontak belum tersedia."} onRetry={reloadContact} compact />
           )}
-          {kontakStatus === "success" && (
+          {contactStatus === "success" && contact && (
             <>
               {/* Nama */}
               <div className="flex items-center gap-3">
@@ -269,7 +264,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
                 <div className="flex flex-1 items-center justify-between gap-2">
                   <span className="text-xs text-[#64748b] md:text-sm">Nama</span>
                   <span className="text-xs font-bold text-[#1e293b] md:text-sm">
-                    : {kontak.namaKontak}
+                    : {contact.contactName}
                   </span>
                 </div>
               </div>
@@ -282,7 +277,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
                     No Whatsapp Terdaftar
                   </span>
                   <span className="text-xs font-bold text-[#1e293b] md:text-sm">
-                    : {kontak.noWhatsapp}
+                    : {contact.whatsappNumber}
                   </span>
                 </div>
               </div>
@@ -307,23 +302,23 @@ export default function ApplicationConfirmation({ onBack, formData }) {
         <input
           type="checkbox"
           id="syarat-ketentuan"
-          checked={setuju}
-          disabled={!hasReadSyarat}
-          onChange={(e) => setSetuju(e.target.checked)}
+          checked={agreed}
+          disabled={!hasReadTerms}
+          onChange={(e) => setAgreed(e.target.checked)}
           className={`mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 accent-[#0052cc] ${
-            hasReadSyarat ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+            hasReadTerms ? "cursor-pointer" : "cursor-not-allowed opacity-50"
           }`}
         />
         <label
           htmlFor="syarat-ketentuan"
           className={`text-xs md:text-sm ${
-            hasReadSyarat ? "cursor-pointer text-[#475569]" : "text-[#94a3b8]"
+            hasReadTerms ? "cursor-pointer text-[#475569]" : "text-[#94a3b8]"
           }`}
         >
           Saya telah membaca dan menyetujui{" "}
           <button
             type="button"
-            onClick={() => setIsSyaratOpen(true)}
+            onClick={() => setIsTermsOpen(true)}
             className="font-semibold text-[#0052cc] underline hover:text-[#0047b3] cursor-pointer"
           >
             Syarat & Ketentuan Pencairan Dana
@@ -331,7 +326,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
           .
         </label>
       </div>
-      {!hasReadSyarat && (
+      {!hasReadTerms && (
         <p className="mb-2 text-[11px] text-[#f59e0b] md:text-xs">
           * Silakan buka dan baca Syarat & Ketentuan terlebih dahulu untuk mengaktifkan centang persetujuan.
         </p>
@@ -356,10 +351,10 @@ export default function ApplicationConfirmation({ onBack, formData }) {
         {/* Button Ajukan Pencairan */}
         <button
           type="button"
-          disabled={!setuju || hasContextError}
-          onClick={() => setuju && setIsVerifOpen(true)}
+          disabled={!agreed || hasContextError}
+          onClick={() => agreed && setIsVerifOpen(true)}
           className={`flex items-center gap-2 rounded-xl px-8 py-3.5 text-xs font-bold text-white shadow-xs transition-all active:scale-[0.98] md:text-sm ${
-            setuju && !hasContextError
+            agreed && !hasContextError
               ? "bg-[#0052cc] hover:bg-[#0047b3] cursor-pointer"
               : "bg-[#94a3b8] cursor-not-allowed"
           }`}
@@ -371,11 +366,11 @@ export default function ApplicationConfirmation({ onBack, formData }) {
 
       {/* PopUp Syarat & Ketentuan */}
       <TermsAndConditions
-        isOpen={isSyaratOpen}
-        onClose={() => setIsSyaratOpen(false)}
+        isOpen={isTermsOpen}
+        onClose={() => setIsTermsOpen(false)}
         onAgree={() => {
-          setHasReadSyarat(true);
-          setIsSyaratOpen(false);
+          setHasReadTerms(true);
+          setIsTermsOpen(false);
         }}
       />
 
@@ -390,7 +385,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
       {/* PopUp Terima Kasih */}
       <ThankYouModal
         isOpen={isThanksOpen}
-        data={pengajuanResult}
+        data={submissionResult}
         onClose={() => {
           setIsThanksOpen(false);
           router.push("/pencairan-dana");

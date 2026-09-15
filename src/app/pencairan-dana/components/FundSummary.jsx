@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { Wallet, Banknote, HandCoins, Send } from "lucide-react";
 
-import { getRingkasanDana } from "@/api/withdrawalApi";
+import { getFundSummary } from "@/api/withdrawalApi";
 import useAsyncData from "@/hooks/useAsyncData";
 import { formatRupiah } from "@/lib/format";
 import LoadingState from "@/components/states/LoadingState";
 import ErrorState from "@/components/states/ErrorState";
 
 export default function FundSummary() {
-  const { data, status, error, reload } = useAsyncData(getRingkasanDana, {
+  const { data, status, error, reload } = useAsyncData(getFundSummary, {
     isEmpty: (d) => !d,
   });
 
@@ -39,38 +39,38 @@ export default function FundSummary() {
       </h2>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 items-center">
-        {/* 1. Dana Terkumpul */}
+        {/* 1. Total Funds Collected */}
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#e8f1fd] text-[#0052cc]">
             <Wallet size={22} strokeWidth={2} />
           </div>
           <div>
             <p className="text-xs font-medium text-[#5E5E68]">Dana Terkumpul</p>
-            <p className="text-lg font-semibold text-black">{formatRupiah(data.danaTerkumpul)}</p>
+            <p className="text-lg font-semibold text-black">{formatRupiah(data.totalFundsCollected)}</p>
           </div>
         </div>
 
-        {/* 2. Sudah Dicairkan */}
+        {/* 2. Already Withdrawn */}
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#e8f1fd] text-[#0052cc]">
             <Banknote size={22} strokeWidth={2} />
           </div>
           <div>
             <p className="text-xs font-medium text-[#5E5E68]">Sudah Dicairkan</p>
-            <p className="text-lg font-semibold text-black">{formatRupiah(data.sudahDicairkan)}</p>
+            <p className="text-lg font-semibold text-black">{formatRupiah(data.alreadyWithdrawn)}</p>
           </div>
         </div>
 
-        {/* 3. Bisa Dicairkan */}
+        {/* 3. Available to Withdraw */}
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#e6f7ed] text-[#00b96b]">
             <HandCoins size={22} strokeWidth={2} />
           </div>
           <div>
             <p className="text-xs font-medium text-[#5E5E68]">Bisa Dicairkan</p>
-            <p className="text-lg font-semibold text-[#07B433]">{formatRupiah(data.bisaDicairkan)}</p>
+            <p className="text-lg font-semibold text-[#07B433]">{formatRupiah(data.availableToWithdraw)}</p>
             <p className="mt-0.5 text-[11px] text-[#5E5E68]">
-              Minimal Pencairan {formatRupiah(data.minimalPencairan)}
+              Minimal Pencairan {formatRupiah(data.minimumWithdrawal)}
             </p>
           </div>
         </div>  

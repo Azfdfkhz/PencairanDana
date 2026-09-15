@@ -7,7 +7,7 @@ import {
   HelpCircle,
   PhoneCall,
 } from "lucide-react";
-import { csContact } from "@/data/mockDb";
+import { csContact } from "@/data/mock-db";
 
 const CS_WHATSAPP_NUMBER = csContact.whatsappNumber;
 

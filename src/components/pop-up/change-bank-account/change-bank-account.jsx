@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 import Image from "next/image";
-import { csContact, changeBankAccountAssets } from "@/data/mockDb";
+import { csContact, changeBankAccountAssets } from "@/data/mock-db";
 
 const documentList = changeBankAccountAssets.documentList;
 const CS_WHATSAPP_NUMBER = csContact.whatsappNumber;

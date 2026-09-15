@@ -17,7 +17,7 @@ import {
   recipientContact,
   withdrawalHistoryData,
   insertMockSubmission,
-} from "@/data/mockDb";
+} from "@/data/mock-db";
 import { formatRupiah } from "@/lib/format";
 import { validateOtp } from "@/lib/validation";
 

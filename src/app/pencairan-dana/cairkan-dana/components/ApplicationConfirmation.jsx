@@ -22,6 +22,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import { getWithdrawalAccount, getRecipientContact, submitWithdrawalRequest } from "@/api/withdrawalApi";
+import useAsyncData from "@/hooks/useAsyncData";
+import LoadingState from "@/components/states/LoadingState";
+import ErrorState from "@/components/states/ErrorState";
+
 export default function ApplicationConfirmation({ onBack, formData }) {
   const router = useRouter();
   const [agreed, setAgreed] = useState(false);

@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import FundSummary from "./components/FundSummary";
-import FundDetails from "./components/FundDetails";
-import WithdrawalHistory from "./components/WithdrawalHistory";
-import WithdrawalBankAccount from "./components/WithdrawalBankAccount";
-import AboutWithdrawal from "./components/AboutWithdrawal";
-import WithdrawalBanner from "./components/WithdrawalBanner";
-import ChangeBankAccountModal from "@/components/PopUp/ChangeBankAccount/ChangeBankAccountModal";
+import FundSummary from "./components/fund-summary";
+import FundDetails from "./components/fund-details";
+import WithdrawalHistory from "./components/withdrawal-history";
+import WithdrawalBankAccount from "./components/withdrawal-bank-account";
+import AboutWithdrawal from "./components/about-withdrawal";
+import WithdrawalBanner from "./components/withdrawal-banner";
+import ChangeBankAccountModal from "@/components/pop-up/change-bank-account/change-bank-account";
 
 export default function PencairanDanaPage() {
   const [showChangeBankAccount, setShowChangeBankAccount] = useState(false);

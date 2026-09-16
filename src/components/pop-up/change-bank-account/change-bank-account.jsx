@@ -74,11 +74,11 @@ export default function ChangeBankAccountModal({ open, onClose }) {
 
         {/* Steps Container */}
         <div className="divide-y divide-gray-100 rounded-2xl border border-gray-100">
-          <div className="flex gap-4 p-5">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-5">
             <Images src="/images/P1.svg" />
 
-            <div className="flex-1">
-              <div className="mb-2 flex items-center gap-2">
+            <div className="flex-1 w-full">
+              <div className="mb-2 flex items-center justify-center sm:justify-start gap-2">
                 <FileText size={18} className="text-[#0052cc]" />
                 <h3 className="text-sm font-bold text-[#1e293b]">
                   Download Formulir
@@ -102,11 +102,11 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           </div>
 
           {/* Step 2: Lampirkan Dokumen */}
-          <div className="flex gap-4 p-5">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-5">
             <Images src="/images/P2.svg" />
 
-            <div className="flex-1">
-              <div className="mb-2 flex items-center gap-2">
+            <div className="flex-1 w-full">
+              <div className="mb-2 flex items-center justify-center sm:justify-start gap-2">
                 <FolderCheck size={18} className="text-[#0052cc]" />
                 <h3 className="text-sm font-bold text-[#1e293b]">
                   Lampirkan Dokumen
@@ -120,7 +120,7 @@ export default function ChangeBankAccountModal({ open, onClose }) {
                 </span>
               </p>
 
-              <div className="space-y-1.5 rounded-lg border border-amber-200 bg-amber-50 p-3">
+              <div className="space-y-1.5 text-left rounded-lg border border-amber-200 bg-amber-50 p-3">
                 {documentList.map((item) => (
                   <div key={item} className="flex items-start gap-2">
                     <CheckCircle2
@@ -137,11 +137,11 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           </div>
 
           {/* Step 3 */}
-          <div className="flex gap-4 p-5">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-5">
             <Images src="/images/P3.svg" />
 
-            <div className="flex-1">
-              <div className="mb-2 flex items-center gap-2">
+            <div className="flex-1 w-full">
+              <div className="mb-2 flex items-center justify-center sm:justify-start gap-2">
                 <MessageCircle size={18} className="text-[#0052cc]" />
                 <h3 className="text-sm font-bold text-[#1e293b]">
                   Kirim ke <span className="italic">Customer Service</span>

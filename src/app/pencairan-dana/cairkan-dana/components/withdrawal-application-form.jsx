@@ -38,6 +38,15 @@ export default function WithdrawalApplicationForm() {
     description: distributionDescription,
   };
 
+  const clearFieldError = (fieldName) => {
+    setErrors((prev) => {
+      if (!prev[fieldName]) return prev;
+      const copy = { ...prev };
+      delete copy[fieldName];
+      return copy;
+    });
+  };
+
   const handleNext = () => {
     const validationErrors = validateSubmissionForm(
       { amountOption, customAmount, distributionDate, recipientCount, distributionLocation, distributionDescription },
@@ -121,6 +130,7 @@ export default function WithdrawalApplicationForm() {
           setCustomAmount={setCustomAmount}
           error={errors.nominal}
           onBalanceLoaded={setAvailableBalance}
+          onClearError={() => clearFieldError("nominal")}
         />
 
         {/* Input Fields Grid */}
@@ -133,7 +143,10 @@ export default function WithdrawalApplicationForm() {
             <input
               type="date"
               value={distributionDate}
-              onChange={(e) => setDistributionDate(e.target.value)}
+              onChange={(e) => {
+                setDistributionDate(e.target.value);
+                clearFieldError("distributionDate");
+              }}
               className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm cursor-pointer ${
                 errors.distributionDate ? "border-rose-400" : "border-gray-300"
               }`}
@@ -154,7 +167,10 @@ export default function WithdrawalApplicationForm() {
               <input
                 type="text"
                 value={recipientCount}
-                onChange={(e) => setRecipientCount(e.target.value.replace(/\D/g, ""))}
+                onChange={(e) => {
+                  setRecipientCount(e.target.value.replace(/\D/g, ""));
+                  clearFieldError("recipientCount");
+                }}
                 placeholder="Contoh: 150"
                 className={`w-full rounded-lg border bg-white px-3.5 py-2.5 pr-10 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm ${
                   errors.recipientCount ? "border-rose-400" : "border-gray-300"
@@ -181,7 +197,10 @@ export default function WithdrawalApplicationForm() {
               <input
                 type="text"
                 value={distributionLocation}
-                onChange={(e) => setDistributionLocation(e.target.value)}
+                onChange={(e) => {
+                  setDistributionLocation(e.target.value);
+                  clearFieldError("distributionLocation");
+                }}
                 placeholder="Contoh: Desa ABC, Kec. BED"
                 className={`w-full rounded-lg border bg-white px-3.5 py-2.5 pr-10 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm ${
                   errors.distributionLocation ? "border-rose-400" : "border-gray-300"
@@ -208,7 +227,10 @@ export default function WithdrawalApplicationForm() {
               <textarea
                 rows={3}
                 value={distributionDescription}
-                onChange={(e) => setDistributionDescription(e.target.value)}
+                onChange={(e) => {
+                  setDistributionDescription(e.target.value);
+                  clearFieldError("distributionDescription");
+                }}
                 placeholder="Jelaskan tentang rencana penyaluran"
                 className={`w-full resize-none rounded-lg border bg-white px-3.5 py-2.5 pr-10 text-xs text-black placeholder-gray-400 outline-hidden transition-colors focus:border-[#0052cc] focus:ring-1 focus:ring-[#0052cc] md:text-sm ${
                   errors.distributionDescription ? "border-rose-400" : "border-gray-300"

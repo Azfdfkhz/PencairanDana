@@ -59,7 +59,7 @@ export default function WithdrawalApplicationDetail() {
   if (status === "loading") {
     return (
       <div className="rounded-xl border border-gray-100 bg-white p-8 shadow-xs">
-        <LoadingState label="Memuat detail pengajuan..." />
+        <LoadingState variant="full" />
       </div>
     );
   }

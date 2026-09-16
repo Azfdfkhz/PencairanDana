@@ -202,7 +202,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
 
         {/* Content */}
         <div className="relative overflow-hidden bg-white p-5 md:p-6">
-          {isLoadingContext && <LoadingState label="Memuat rekening..." compact />}
+          {accountStatus === "loading" && <LoadingState variant="bank" />}
           {accountStatus !== "loading" && (accountStatus === "error" || accountStatus === "empty") && (
             <ErrorState message={accountError || "Rekening belum tersedia."} onRetry={reloadAccount} compact />
           )}
@@ -257,7 +257,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
 
         {/* Content */}
         <div className="space-y-4 bg-white p-5 md:p-6">
-          {contactStatus === "loading" && <LoadingState label="Memuat kontak..." compact />}
+          {contactStatus === "loading" && <LoadingState variant="contact" />}
           {(contactStatus === "error" || contactStatus === "empty") && (
             <ErrorState message={contactError || "Kontak belum tersedia."} onRetry={reloadContact} compact />
           )}

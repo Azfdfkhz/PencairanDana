@@ -16,6 +16,7 @@ export default function WithdrawalAmount({
   setCustomAmount,
   error,
   onBalanceLoaded,
+  onClearError,
 }) {
   const { data, status, error: fetchError, reload } = useAsyncData(getFundSummary, {
     isEmpty: (d) => !d,
@@ -30,8 +31,14 @@ export default function WithdrawalAmount({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, availableBalance]);
 
+  const handleSelectOption = (opt) => {
+    setAmountOption(opt);
+    if (onClearError) onClearError();
+  };
+
   const handleAmountChange = (e) => {
     setCustomAmount(formatNumberInput(e.target.value));
+    if (onClearError) onClearError();
   };
 
   if (status === "loading") {
@@ -39,7 +46,7 @@ export default function WithdrawalAmount({
       <div className="mb-6">
         <h3 className="text-sm font-semibold text-[#1e293b]">Nominal Pencairan</h3>
         <div className="mt-3 rounded-xl border border-[#d0e2ff] bg-[#f0f6fe] p-4">
-          <LoadingState label="Memuat saldo tersedia..." compact />
+          <LoadingState variant="amount" />
         </div>
       </div>
     );
@@ -95,7 +102,7 @@ export default function WithdrawalAmount({
           {/* Option 1: Withdraw All Available Balance */}
           <button
             type="button"
-            onClick={() => setAmountOption("semua")}
+            onClick={() => handleSelectOption("semua")}
             className={`flex w-full items-center justify-between rounded-lg border p-3.5 text-left transition-all ${
               amountOption === "semua"
                 ? "border-[#0052cc] bg-[#f8fafc] ring-1 ring-[#0052cc]"
@@ -128,7 +135,7 @@ export default function WithdrawalAmount({
           <div className="space-y-3">
             <button
               type="button"
-              onClick={() => setAmountOption("lain")}
+              onClick={() => handleSelectOption("lain")}
               className={`flex w-full items-center justify-between rounded-lg border p-3.5 text-left transition-all ${
                 amountOption === "lain"
                   ? "border-[#0052cc] bg-[#f8fafc] ring-1 ring-[#0052cc]"

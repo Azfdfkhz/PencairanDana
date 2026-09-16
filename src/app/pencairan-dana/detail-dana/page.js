@@ -9,7 +9,7 @@ export default function DetailDanaPage() {
     <Suspense
       fallback={
         <div className="flex min-h-[50vh] items-center justify-center">
-          <LoadingState label="Memuat detail pencairan..." />
+          <LoadingState variant="full" />
         </div>
       }
     >

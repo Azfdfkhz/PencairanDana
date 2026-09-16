@@ -17,7 +17,7 @@ export default function CampaignHeaderCard() {
   if (status === "loading") {
     return (
       <div className="mb-6 rounded-xl border border-gray-100 bg-white p-4 shadow-xs md:p-5">
-        <LoadingState label="Memuat info campaign..." compact />
+        <LoadingState variant="campaign" />
       </div>
     );
   }

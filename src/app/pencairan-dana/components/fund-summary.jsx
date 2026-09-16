@@ -18,7 +18,7 @@ export default function FundSummary() {
     return (
       <div className="mb-6 rounded-xl border border-gray-100 bg-white p-5 shadow-xs md:p-6">
         <h2 className="mb-5 text-base font-semibold text-black">Ringkasan Dana</h2>
-        <LoadingState label="Memuat ringkasan dana..." compact />
+        <LoadingState variant="summary" />
       </div>
     );
   }

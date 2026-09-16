@@ -20,7 +20,7 @@ export default function FundDetails() {
       <div className="flex h-full flex-col justify-between rounded-xl border border-gray-100 bg-white p-5 shadow-xs md:p-6">
         <h2 className="mb-5 text-base font-bold text-[#1e293b]">Rincian Dana</h2>
         {status === "loading" ? (
-          <LoadingState label="Memuat rincian dana..." compact />
+          <LoadingState variant="details" />
         ) : (
           <ErrorState
             message={error || "Rincian dana belum tersedia."}

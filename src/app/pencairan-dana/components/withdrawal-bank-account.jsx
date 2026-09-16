@@ -19,7 +19,7 @@ export default function WithdrawalBankAccount({ onSubmit }) {
           Rekening Pencairan Dana
         </h2>
         {status === "loading" ? (
-          <LoadingState label="Memuat rekening pencairan..." compact />
+          <LoadingState variant="bank" />
         ) : (
           <ErrorState
             message={error || "Rekening pencairan belum tersedia."}

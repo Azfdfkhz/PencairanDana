@@ -27,7 +27,7 @@ export default function WithdrawalHistory() {
       </h2>
 
       {status === "loading" && (
-        <LoadingState label="Memuat riwayat pencairan..." compact />
+        <LoadingState variant="history" />
       )}
 
       {status === "error" && (

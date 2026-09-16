@@ -120,7 +120,7 @@ export default function ChangeBankAccountModal({ open, onClose }) {
                 </span>
               </p>
 
-              <div className="space-y-1.5 text-left rounded-lg border border-amber-200 bg-amber-50 p-3">
+              <div className="space-y-1.5 text-left rounded-lg border border-[#FDCB09] bg-[#FFF7F7] p-3">
                 {documentList.map((item) => (
                   <div key={item} className="flex items-start gap-2">
                     <CheckCircle2

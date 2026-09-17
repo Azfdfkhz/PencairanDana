@@ -62,7 +62,7 @@ export default function ChangeBankAccountModal({ open, onClose }) {
 
         {/* Title & Description */}
         <div className="mb-6 text-center">
-          <h2 className="text-lg font-bold text-[#1e293b] md:text-xl">
+          <h2 className="text-lg font-semibold text-black md:text-xl">
             Perubahan Rekening Pencairan
           </h2>
           <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-[#64748b] md:text-sm">
@@ -74,18 +74,33 @@ export default function ChangeBankAccountModal({ open, onClose }) {
 
         {/* Steps Container */}
         <div className="divide-y divide-gray-100 rounded-2xl border border-gray-100">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-5">
-            <Images src="/images/P1.svg" />
+          {/* Step 1: Download Formulir */}
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5 p-4 sm:p-5 text-left">
+            {/* Desktop Image (Left side) */}
+            <div className="hidden sm:block shrink-0">
+              <Images src="/images/P1.svg" />
+            </div>
 
-            <div className="flex-1 w-full">
-              <div className="mb-2 flex items-center justify-center sm:justify-start gap-2">
-                <FileText size={18} className="text-[#0052cc]" />
-                <h3 className="text-sm font-bold text-[#1e293b]">
+            {/* Mobile Image + Title */}
+            <div className="flex sm:hidden items-center gap-5 w-full">
+              <Images src="/images/P1.svg" />
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-black">
+                  Download Formulir
+                </h3>
+              </div>
+            </div>
+
+            {/* Content Column */}
+            <div className="flex-1 min-w-0 w-full">
+              {/* Desktop Title */}
+              <div className="hidden sm:flex items-center gap-2 mb-1.5">
+                <h3 className="text-sm font-semibold text-black md:text-base">
                   Download Formulir
                 </h3>
               </div>
 
-              <p className="mb-3 text-xs leading-relaxed text-[#64748b]">
+              <p className="mb-3 text-xs leading-relaxed text-[#7B7B7B] md:text-sm">
                 Download formulir perubahan rekening, lalu isi sesuai data
                 yang diminta.
               </p>
@@ -102,20 +117,35 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           </div>
 
           {/* Step 2: Lampirkan Dokumen */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-5">
-            <Images src="/images/P2.svg" />
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5 p-4 sm:p-5 text-left">
+            {/* Desktop Image (Left side) */}
+            <div className="hidden sm:block shrink-0">
+              <Images src="/images/P2.svg" />
+            </div>
 
-            <div className="flex-1 w-full">
-              <div className="mb-2 flex items-center justify-center sm:justify-start gap-2">
-                <FolderCheck size={18} className="text-[#0052cc]" />
-                <h3 className="text-sm font-bold text-[#1e293b]">
+            {/* Mobile Image + Title */}
+            <div className="flex sm:hidden items-center gap-5 w-full">
+              <Images src="/images/P2.svg" />
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-black">
+                  Lampirkan Dokumen
+                </h3>
+              </div>
+            </div>
+
+            {/* Content Column */}
+            <div className="flex-1 min-w-0 w-full">
+              {/* Desktop Title */}
+              <div className="hidden sm:flex items-center gap-2 mb-1.5">
+                <FolderCheck size={18} className="shrink-0 text-[#0052cc]" />
+                <h3 className="text-sm font-semibold text-black md:text-base">
                   Lampirkan Dokumen
                 </h3>
               </div>
 
-              <p className="mb-3 text-xs leading-relaxed text-[#64748b]">
+              <p className="mb-3 text-xs leading-relaxed text-[#7B7B7B] md:text-sm">
                 Lampirkan Dokumen berikut ke dalam file{" "}
-                <span className="font-semibold text-[#1e293b]">
+                <span className="font-semibold text-[#7B7B7B]">
                   Form Perubahan Rekening.
                 </span>
               </p>
@@ -137,18 +167,33 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           </div>
 
           {/* Step 3 */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-5">
-            <Images src="/images/P3.svg" />
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5 p-4 sm:p-5 text-left">
+            {/* Desktop Image (Left side) */}
+            <div className="hidden sm:block shrink-0">
+              <Images src="/images/P3.svg" />
+            </div>
 
-            <div className="flex-1 w-full">
-              <div className="mb-2 flex items-center justify-center sm:justify-start gap-2">
-                <MessageCircle size={18} className="text-[#0052cc]" />
-                <h3 className="text-sm font-bold text-[#1e293b]">
+            {/* Mobile Image + Title */}
+            <div className="flex sm:hidden items-center gap-5 w-full">
+              <Images src="/images/P3.svg" />
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-black">
+                  Kirim ke <span className="italic">Customer Service</span>
+                </h3>
+              </div>
+            </div>
+
+            {/* Content Column */}
+            <div className="flex-1 min-w-0 w-full">
+              {/* Desktop Title */}
+              <div className="hidden sm:flex items-center gap-2 mb-1.5">
+                <MessageCircle size={18} className="shrink-0 text-[#0052cc]" />
+                <h3 className="text-sm font-semibold text-black md:text-base">
                   Kirim ke <span className="italic">Customer Service</span>
                 </h3>
               </div>
 
-              <p className="mb-3 text-xs leading-relaxed text-[#64748b]">
+              <p className="mb-3 text-xs leading-relaxed text-[#7B7B7B] md:text-sm">
                 Kirimkan seluruh dokumen melalui Whatsapp ke nomor{" "}
                 <span className="italic">Customer Service</span> kami.
               </p>
@@ -170,12 +215,12 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           </div>
         </div>
 
-        {/* Footer Notice */}
+        {/* Footer */}
         <div className="mt-5 flex items-start gap-2.5 rounded-lg bg-[#f0f6fe] p-3">
           <Info size={16} className="mt-0.5 shrink-0 text-[#0052cc]" />
-          <p className="text-[11px] leading-relaxed text-[#0052cc]">
+          <p className="italic text-[11px] leading-relaxed text-[#0052cc]">
             Verifikasi perubahan rekening biasanya selesai dalam{" "}
-            <span className="font-bold">maksimal 2 hari kerja</span> setelah
+            <span className="italic font-semibold">maksimal 2 hari kerja</span> setelah
             dokumen lengkap diterima.
           </p>
         </div>
@@ -186,7 +231,7 @@ export default function ChangeBankAccountModal({ open, onClose }) {
 
 function Images ({ src }) {
   return (
-    <div className="relative h-25 w-25 shrink-0">
+    <div className="relative h-16 w-16 sm:h-24 sm:w-24 shrink-0">
       <Image
         src={src}
         alt=""

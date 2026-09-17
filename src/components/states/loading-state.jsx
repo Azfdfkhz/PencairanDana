@@ -10,10 +10,10 @@ export default function LoadingState({
 }) {
   if (variant === "campaign") {
     return (
-      <div className={`w-full animate-pulse flex items-center justify-between gap-4 ${className}`}>
-        <div className="flex items-center gap-4 flex-1">
-          <div className="h-14 w-24 shrink-0 rounded-md bg-slate-200 md:h-16 md:w-28" />
-          <div className="flex-1 space-y-2">
+      <div className={`w-full animate-pulse flex items-center justify-between gap-3.5 sm:gap-4 ${className}`}>
+        <div className="flex items-center gap-3.5 sm:gap-4 flex-1 min-w-0">
+          <div className="h-20 w-32 shrink-0 rounded-lg bg-slate-200 sm:h-20 sm:w-36 md:h-16 md:w-28" />
+          <div className="flex-1 space-y-2 min-w-0">
             <div className="h-4 w-3/4 max-w-xs rounded bg-slate-200" />
             <div className="h-3 w-1/3 max-w-40 rounded bg-slate-100" />
           </div>

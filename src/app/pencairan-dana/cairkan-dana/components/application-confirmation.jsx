@@ -141,9 +141,9 @@ export default function ApplicationConfirmation({ onBack, formData }) {
       </div>
 
       {/* Hal yang Perlu Diperhatikan */}
-      <div className="mb-6 rounded-xl border border-[#fde68a] bg-[#fffbeb] p-4 md:p-5">
+      <div className="mb-6 rounded-xl bg-[#FDF1CF] p-4 md:p-5">
         <div className="mb-3 flex items-center gap-2">
-          <AlertCircle size={18} className="shrink-0 text-[#f59e0b]" />
+          <AlertCircle size={18} className="shrink-0 text-[#A46435]" />
           <h4 className="text-sm font-semibold text-[#A46435]">
             Hal yang Perlu Diperhatikan
           </h4>

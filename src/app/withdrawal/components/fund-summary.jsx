@@ -78,7 +78,7 @@ export default function FundSummary() {
         {/* 4. Action Button */}
         <div className="flex justify-start lg:justify-end">
           <Link
-            href="/pencairan-dana/cairkan-dana"
+            href="/withdrawal/fund-disbursement"
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0052cc] px-6 py-3 text-sm font-semibold text-white shadow-xs transition-all hover:bg-[#0047b3] active:scale-[0.98] sm:w-auto"
           >
             <Send size={18} className="-rotate-12" />

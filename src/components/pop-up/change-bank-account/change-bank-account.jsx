@@ -53,7 +53,7 @@ export default function ChangeBankAccountModal({ open, onClose }) {
         <div className="mb-5 flex justify-center">
           <div className="relative flex h-45 w-45 items-center justify-center">
           <Image
-            src="/images/PencairanDana.svg"
+            src="/images/withdrawal.svg"
             alt="Bantu Pengungsi Rohingya"
             fill
           />
@@ -78,12 +78,12 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5 p-4 sm:p-5 text-left">
             {/* Desktop Image (Left side) */}
             <div className="hidden sm:block shrink-0">
-              <Images src="/images/P1.svg" />
+              <Images src="/images/p1.svg" />
             </div>
 
             {/* Mobile Image + Title */}
             <div className="flex sm:hidden items-center gap-5 w-full">
-              <Images src="/images/P1.svg" />
+              <Images src="/images/p1.svg" />
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-semibold text-black">
                   Download Formulir
@@ -120,12 +120,12 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5 p-4 sm:p-5 text-left">
             {/* Desktop Image (Left side) */}
             <div className="hidden sm:block shrink-0">
-              <Images src="/images/P2.svg" />
+              <Images src="/images/p2.svg" />
             </div>
 
             {/* Mobile Image + Title */}
             <div className="flex sm:hidden items-center gap-5 w-full">
-              <Images src="/images/P2.svg" />
+              <Images src="/images/p2.svg" />
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-semibold text-black">
                   Lampirkan Dokumen
@@ -170,12 +170,12 @@ export default function ChangeBankAccountModal({ open, onClose }) {
           <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5 p-4 sm:p-5 text-left">
             {/* Desktop Image (Left side) */}
             <div className="hidden sm:block shrink-0">
-              <Images src="/images/P3.svg" />
+              <Images src="/images/p3.svg" />
             </div>
 
             {/* Mobile Image + Title */}
             <div className="flex sm:hidden items-center gap-5 w-full">
-              <Images src="/images/P3.svg" />
+              <Images src="/images/p3.svg" />
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-semibold text-black">
                   Kirim ke <span className="italic">Customer Service</span>

@@ -103,7 +103,7 @@ export default function WithdrawalApplicationDetail() {
       {/* Back + Title */}
       <div className="mb-6 flex items-center gap-3">
         <Link
-          href="/pencairan-dana"
+          href="/withdrawal"
           className="flex h-9 w-9 items-center justify-center rounded-lg text-black transition-colors hover:bg-gray-100"
         >
           <ArrowLeft size={20} />

@@ -1,6 +1,6 @@
 "use client";
 
-import ApplicationConfirmation from "@/app/pencairan-dana/cairkan-dana/components/application-confirmation";
+import ApplicationConfirmation from "@/app/withdrawal/fund-disbursement/components/application-confirmation"
 import React, { useState } from "react";
 import Link from "next/link";
 import WithdrawalAmount from "./withdrawal-amount";
@@ -259,7 +259,7 @@ export default function WithdrawalApplicationForm() {
       {/* Action Footer Buttons */}
       <div className="mt-8 flex items-center justify-between">
         <Link
-          href="/pencairan-dana"
+          href="/withdrawal"
           className="flex items-center gap-2 rounded-xl border-2 border-[#0047CA] bg-white px-6 py-3 text-xs font-bold text-[#0047CA] transition-all hover:bg-[#f0f6fe] active:scale-[0.98] md:text-sm"
         >
           <ArrowLeft size={18} />

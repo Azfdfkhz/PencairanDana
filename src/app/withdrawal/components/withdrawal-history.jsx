@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ChevronRight, History } from "lucide-react";
 
-import StatusBadge from "@/app/pencairan-dana/components/status-badge";
+import StatusBadge from "@/app/withdrawal/components/status-badge";
 import { getWithdrawalHistory } from "@/api/withdrawal-api";
 import useAsyncData from "@/hooks/use-async-data";
 import LoadingState from "@/components/states/loading-state";

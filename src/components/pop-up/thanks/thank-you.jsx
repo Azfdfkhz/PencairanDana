@@ -42,8 +42,8 @@ export default function ThankYouModal({ isOpen, onClose, data }) {
           <div className="absolute inset-0 rounded-full bg-[#eef4ff]" />
 
           <Image
-            src="/images/pesawatilustrasi.svg"
-            alt="Ilustrasi pesawat"
+            src="/images/paper-plane.svg"
+            alt="paper-plane"
             width={160}
             height={160}
             className="relative z-10 h-full w-full object-contain"
@@ -113,7 +113,7 @@ export default function ThankYouModal({ isOpen, onClose, data }) {
           </div>
         </div>
 
-        {/* === BUTTON TUTUP === */}
+        {/* BUTTON TUTUP */}
         <button
           onClick={onClose}
           className="w-full rounded-xl bg-[#0047cc] py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#003bb3] active:scale-[0.98]"

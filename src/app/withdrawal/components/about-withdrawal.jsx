@@ -21,7 +21,7 @@ export default function AboutWithdrawal() {
       <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-12">
         <div className="order-1 flex justify-center md:order-2 md:col-span-5">
           <Image
-            src="/images/RightColumn.svg"
+            src="/images/right-column.svg"
             alt="Tentang Pencairan Dana"
             width={240}
             height={180}

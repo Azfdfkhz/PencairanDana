@@ -77,7 +77,7 @@ export default function WithdrawalBanner() {
 
       {/* Action Button */}
       <Link
-        href="/pencairan-dana/cairkan-dana"
+        href="/withdrawal/fund-disbursement"
         className="flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-[#0052cc] px-6 py-3.5 text-sm font-semibold text-white shadow-xs transition-all hover:bg-[#0047b3] active:scale-[0.98] md:w-auto"
       >
         <Send size={18} className="-rotate-12" />

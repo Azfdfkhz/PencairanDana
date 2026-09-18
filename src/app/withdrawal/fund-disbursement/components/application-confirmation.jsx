@@ -393,7 +393,7 @@ export default function ApplicationConfirmation({ onBack, formData }) {
         data={submissionResult}
         onClose={() => {
           setIsThanksOpen(false);
-          router.push("/pencairan-dana");
+          router.push("/withdrawal");
         }}
       />
     </div>

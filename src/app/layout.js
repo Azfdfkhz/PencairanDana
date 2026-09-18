@@ -9,7 +9,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Sharing Happiness - Pencairan Dana",
+  title: "Sharing Happiness - withdrawal",
   description: "Kelola pengajuan pencairan dana campaign Sharing Happiness.",
 };
 

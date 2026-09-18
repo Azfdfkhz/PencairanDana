@@ -21,16 +21,14 @@ import {
 import { formatRupiah } from "@/lib/format";
 import { validateOtp } from "@/lib/validation";
 
-/* ------------------------------------------------------------------ */
-/*  Campaign & Summary                                                 */
-/* ------------------------------------------------------------------ */
+// Campaign & Summary
 
 export async function getCampaignInfo() {
   if (USE_MOCK) {
     await mockDelay(300);
     return campaignInfo;
   }
-  return apiFetch("/pencairan/campaign");
+  return apiFetch("/withdrawal/campaign");
 }
 
 export async function getFundSummary() {
@@ -38,7 +36,7 @@ export async function getFundSummary() {
     await mockDelay(400);
     return fundSummary;
   }
-  return apiFetch("/pencairan/ringkasan");
+  return apiFetch("/withdrawal/summary");
 }
 
 export async function getFundDetails() {
@@ -46,19 +44,17 @@ export async function getFundDetails() {
     await mockDelay(400);
     return fundDetails;
   }
-  return apiFetch("/pencairan/rincian");
+  return apiFetch("/withdrawal/details");
 }
 
-/* ------------------------------------------------------------------ */
-/*  Account & Contact                                                  */
-/* ------------------------------------------------------------------ */
+// Account & Contact
 
 export async function getWithdrawalAccount() {
   if (USE_MOCK) {
     await mockDelay(350);
     return withdrawalAccount;
   }
-  return apiFetch("/pencairan/rekening");
+  return apiFetch("/withdrawal/account");
 }
 
 export async function getRecipientContact() {
@@ -66,19 +62,17 @@ export async function getRecipientContact() {
     await mockDelay(300);
     return recipientContact;
   }
-  return apiFetch("/pencairan/contact");
+  return apiFetch("/withdrawal/contact");
 }
 
-/* ------------------------------------------------------------------ */
-/*  History & Detail                                                   */
-/* ------------------------------------------------------------------ */
+// History & Detail 
 
 export async function getWithdrawalHistory() {
   if (USE_MOCK) {
     await mockDelay(500);
     return withdrawalHistoryData;
   }
-  return apiFetch("/pencairan/riwayat");
+  return apiFetch("/withdrawal/history");
 }
 
 export async function getWithdrawalDetail(id) {
@@ -93,12 +87,10 @@ export async function getWithdrawalDetail(id) {
     }
     return item;
   }
-  return apiFetch(`/pencairan/riwayat/${id}`);
+  return apiFetch(`/withdrawal/history/${id}`);
 }
 
-/* ------------------------------------------------------------------ */
-/*  Disbursement Request                                               */
-/* ------------------------------------------------------------------ */
+// Disbursement Request  
 
 /**
  * @param {{
@@ -122,15 +114,13 @@ export async function submitWithdrawalRequest(payload) {
       detailUrl: created.detailUrl,
     };
   }
-  return apiFetch("/pencairan/pengajuan", {
+  return apiFetch("/withdrawal/request", {
     method: "POST",
     body: JSON.stringify(payload),
   });
 }
 
-/* ------------------------------------------------------------------ */
-/*  WhatsApp OTP                                                       */
-/* ------------------------------------------------------------------ */
+// whatsApp OTP
 
 // Mock OTP code considered valid while USE_MOCK is active.
 const MOCK_VALID_OTP = "123456";
@@ -146,7 +136,7 @@ export async function requestOtp() {
       resendCooldownSeconds: OTP_RESEND_COOLDOWN_SECONDS,
     };
   }
-  return apiFetch("/pencairan/otp/request", { method: "POST" });
+  return apiFetch("/withdrawal/otp/request", { method: "POST" });
 }
 
 export async function verifyOtp(otp) {
@@ -166,7 +156,7 @@ export async function verifyOtp(otp) {
     return { verified: true };
   }
 
-  return apiFetch("/pencairan/otp/verify", {
+  return apiFetch("/withdrawal/otp/verify", {
     method: "POST",
     body: JSON.stringify({ otp }),
   });
@@ -181,7 +171,7 @@ export async function resendOtp() {
       resendCooldownSeconds: OTP_RESEND_COOLDOWN_SECONDS,
     };
   }
-  return apiFetch("/pencairan/otp/resend", { method: "POST" });
+  return apiFetch("/withdrawal/otp/resend", { method: "POST" });
 }
 
 // Re-export utility that is often used alongside this layer.
